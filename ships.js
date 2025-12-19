@@ -23,4 +23,6 @@ const shipTypes = [
   { Destroyer: 2 },
 ];
 
-const createFleet = (shipTypes) => {};
+const createFleet = () => {};
+
+export default createFleet;
