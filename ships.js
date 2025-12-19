@@ -1,28 +1,41 @@
-class ship {
+class Ship {
   constructor(type, length, hitPoints) {
     this.type = type;
     this.length = length;
     this.hitPoints = hitPoints;
     this.isSunk = false;
   }
-  hit = () => {
+
+  hit() {
     this.hitPoints - 1;
-  };
-  isSunk = () => {
+  }
+  isSunkFunc() {
     if (this.hitPoints === 0) {
       this.isSunk = true;
     }
-  };
+  }
 }
 
-const shipTypes = [
-  { Carrier: 5 },
-  { Battleship: 4 },
-  { Cruiser: 3 },
-  { Submarine: 3 },
-  { Destroyer: 2 },
-];
+const createFleet = () => {
+  const shipTypes = [
+    ["Carrier", 5],
+    ["Battleship", 4],
+    ["Cruiser", 3],
+    ["Submarine", 3],
+    ["Destroyer", 2],
+  ];
 
-const createFleet = () => {};
+  let currentShip;
+  let fleet = [];
+
+  for (let i = 0; i < shipTypes.length; i++) {
+    currentShip = new Ship(shipTypes[i][0], shipTypes[i][1], shipTypes[i][1]);
+    fleet.push(currentShip);
+  }
+  //   console.log(fleet);
+  return fleet;
+};
+
+createFleet();
 
 export default createFleet;
