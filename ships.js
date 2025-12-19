@@ -23,4 +23,4 @@ const shipTypes = [
   { Destroyer: 2 },
 ];
 
-const createFleet = () => {};
+const createFleet = (shipTypes) => {};
