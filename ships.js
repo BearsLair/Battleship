@@ -32,7 +32,6 @@ const createFleet = () => {
     currentShip = new Ship(shipTypes[i][0], shipTypes[i][1], shipTypes[i][1]);
     fleet.push(currentShip);
   }
-  //   console.log(fleet);
   return fleet;
 };
 
