@@ -36,6 +36,7 @@ class Gameboard {
     this.board = [];
     this.shipPositions = [];
   }
+
   addShips() {
     const fleet = createFleet();
 
@@ -44,10 +45,34 @@ class Gameboard {
 
     for (let i = 0; i < 5; i++) {
       curr = mockPlacement[i];
-      coordinates = this.shipCoordinates(curr[0], curr[1], curr[2]);
+      coordinates = this.shipCoordinates(fleet[i].length, curr[1], curr[2]);
+      fleet[i].ocuppiedCoordinates = coordinates;
+      this.shipPositions.push(fleet[i]);
     }
   }
-  shipCoordinates(type, id, orientation) {}
+
+  shipCoordinates(length, id, orientation) {
+    const baseCell = this.board.find((position) => position.id === id);
+    let coordinates = [];
+    let baseCellCoor = [baseCell.x, baseCell.y];
+    coordinates.push(baseCellCoor);
+
+    if (orientation === "horizontal") {
+      for (let i = 1; i < length; i++) {
+        let updatedCoor = baseCellCoor[0] + 1;
+        baseCellCoor = [updatedCoor, baseCellCoor[1]];
+        coordinates.push(baseCellCoor);
+      }
+    } else if (orientation === "vertical") {
+      for (let i = 1; i < length; i++) {
+        let updatedCoor = baseCellCoor[1] + 1;
+        baseCellCoor = [baseCellCoor[0], updatedCoor];
+        coordinates.push(baseCellCoor);
+      }
+    }
+
+    return coordinates;
+  }
 }
 
 const createBoard = (player, type) => {

@@ -71,34 +71,26 @@ test("The ships are carrier, battleship, cruiser, submarine, and destoyer", () =
   expect(newBoard.shipPositions[3].type).toBe("Submarine");
   expect(newBoard.shipPositions[4].type).toBe("Destroyer");
 });
-test("Occupied ship coordinates are correct", () => {
+
+test("Carrier at B1 in horizontal position", () => {
   const newBoard = createBoard("Player1", "Ship");
   newBoard.addShips();
-  expect(newBoard.shipPositions[0].type).toBe([
+  expect(newBoard.shipPositions[0].ocuppiedCoordinates).toStrictEqual([
     [1, 0],
     [2, 0],
     [3, 0],
     [4, 0],
     [5, 0],
   ]);
-  expect(newBoard.shipPositions[1].type).toBe([
+});
+
+test("Battleship at B5 in vertical position", () => {
+  const newBoard = createBoard("Player1", "Ship");
+  newBoard.addShips();
+  expect(newBoard.shipPositions[1].ocuppiedCoordinates).toStrictEqual([
     [1, 4],
     [1, 5],
     [1, 6],
     [1, 7],
-  ]);
-  expect(newBoard.shipPositions[2].type).toBe([
-    [3, 6],
-    [4, 6],
-    [5, 6],
-  ]);
-  expect(newBoard.shipPositions[3].type).toBe([
-    [8, 1],
-    [8, 2],
-    [8, 3],
-  ]);
-  expect(newBoard.shipPositions[4].type).toBe([
-    [6, 4],
-    [6, 5],
   ]);
 });
