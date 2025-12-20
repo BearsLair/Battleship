@@ -1,5 +1,13 @@
 import createFleet from "./ships";
 
+const mockPlacement = [
+  ["Carrier", "B1", "horizontal"],
+  ["Battleship", "B5", "vertical"],
+  ["Cruiser", "D7", "horizontal"],
+  ["Submarine", "I2", "vertical"],
+  ["Destroyer", "G5", "horizontal"],
+];
+
 // Both Players (or CPUs) have two boards:
 //      1. PLayer Ship Placement Board (10 x 10)
 //      2. PLayer Hit Strategy Board (10 x 10)
@@ -30,10 +38,16 @@ class Gameboard {
   }
   addShips() {
     const fleet = createFleet();
+
+    let curr;
+    let coordinates = [];
+
     for (let i = 0; i < 5; i++) {
-      this.shipPositions.push(fleet[i]);
+      curr = mockPlacement[i];
+      coordinates = this.shipCoordinates(curr[0], curr[1], curr[2]);
     }
   }
+  shipCoordinates(type, id, orientation) {}
 }
 
 const createBoard = (player, type) => {

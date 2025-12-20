@@ -71,12 +71,34 @@ test("The ships are carrier, battleship, cruiser, submarine, and destoyer", () =
   expect(newBoard.shipPositions[3].type).toBe("Submarine");
   expect(newBoard.shipPositions[4].type).toBe("Destroyer");
 });
-test("The lengths of the ships in order is 5, 4, 3, 3, 2", () => {
+test("Occupied ship coordinates are correct", () => {
   const newBoard = createBoard("Player1", "Ship");
   newBoard.addShips();
-  expect(newBoard.shipPositions[0].length).toBe(5);
-  expect(newBoard.shipPositions[1].length).toBe(4);
-  expect(newBoard.shipPositions[2].length).toBe(3);
-  expect(newBoard.shipPositions[3].length).toBe(3);
-  expect(newBoard.shipPositions[4].length).toBe(2);
+  expect(newBoard.shipPositions[0].type).toBe([
+    [1, 0],
+    [2, 0],
+    [3, 0],
+    [4, 0],
+    [5, 0],
+  ]);
+  expect(newBoard.shipPositions[1].type).toBe([
+    [1, 4],
+    [1, 5],
+    [1, 6],
+    [1, 7],
+  ]);
+  expect(newBoard.shipPositions[2].type).toBe([
+    [3, 6],
+    [4, 6],
+    [5, 6],
+  ]);
+  expect(newBoard.shipPositions[3].type).toBe([
+    [8, 1],
+    [8, 2],
+    [8, 3],
+  ]);
+  expect(newBoard.shipPositions[4].type).toBe([
+    [6, 4],
+    [6, 5],
+  ]);
 });
