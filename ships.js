@@ -4,6 +4,7 @@ class Ship {
     this.length = length;
     this.hitPoints = hitPoints;
     this.isSunk = false;
+    this.ocuppiedCoordinates = [];
   }
 
   hit() {
@@ -34,7 +35,5 @@ const createFleet = () => {
   }
   return fleet;
 };
-
-createFleet();
 
 export default createFleet;
