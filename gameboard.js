@@ -1,3 +1,5 @@
+import createFleet from "./ships";
+
 // Both Players (or CPUs) have two boards:
 //      1. PLayer Ship Placement Board (10 x 10)
 //      2. PLayer Hit Strategy Board (10 x 10)
@@ -6,9 +8,13 @@
 // Rows are referrred to by numbers 1 - 10.
 // Cells are called by referring to Col-Row (e.g. A-10)
 
+// Coordinates use inverted positive Cartesian coordinate system,
+// with orgin in upper-left of the board.
 class Cell {
-  constructor(id) {
+  constructor(id, x, y) {
     this.id = id;
+    this.x = x;
+    this.y = y;
     this.hit = false;
   }
 }
@@ -22,6 +28,12 @@ class Gameboard {
     this.board = [];
     this.shipPositions = [];
   }
+  addShips() {
+    const fleet = createFleet();
+    for (let i = 0; i < 5; i++) {
+      this.shipPositions.push(fleet[i]);
+    }
+  }
 }
 
 const createBoard = (player, type) => {
@@ -34,8 +46,8 @@ const createBoard = (player, type) => {
 
   for (let i = 0; i < 10; i++) {
     for (let k = 0; k < 10; k++) {
-      id = charArray[i] + numArray[k];
-      newCell = new Cell(id);
+      id = charArray[k] + numArray[i];
+      newCell = new Cell(id, k, i);
       newBoard.board.push(newCell);
     }
   }

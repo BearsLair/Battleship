@@ -49,3 +49,34 @@ test("The board has a shipPositions array", () => {
 
   expect(Object.hasOwn(newBoard, "shipPositions")).toBe(true);
 });
+
+test("A cell has inverted postive x,y coordinates", () => {
+  const newBoard = createBoard("Player1", "Ship");
+
+  expect(newBoard.board[2].x).toBe(2);
+  expect(newBoard.board[2].y).toBe(0);
+});
+
+test("shipPositions array has length of five", () => {
+  const newBoard = createBoard("Player1", "Ship");
+  newBoard.addShips();
+  expect(newBoard.shipPositions).toHaveLength(5);
+});
+test("The ships are carrier, battleship, cruiser, submarine, and destoyer", () => {
+  const newBoard = createBoard("Player1", "Ship");
+  newBoard.addShips();
+  expect(newBoard.shipPositions[0].type).toBe("Carrier");
+  expect(newBoard.shipPositions[1].type).toBe("Battleship");
+  expect(newBoard.shipPositions[2].type).toBe("Cruiser");
+  expect(newBoard.shipPositions[3].type).toBe("Submarine");
+  expect(newBoard.shipPositions[4].type).toBe("Destroyer");
+});
+test("The lengths of the ships in order is 5, 4, 3, 3, 2", () => {
+  const newBoard = createBoard("Player1", "Ship");
+  newBoard.addShips();
+  expect(newBoard.shipPositions[0].length).toBe(5);
+  expect(newBoard.shipPositions[1].length).toBe(4);
+  expect(newBoard.shipPositions[2].length).toBe(3);
+  expect(newBoard.shipPositions[3].length).toBe(3);
+  expect(newBoard.shipPositions[4].length).toBe(2);
+});
