@@ -4,7 +4,8 @@
   "description": "The two-player (or computer) game Battleship, done with Javascript in the browser.",
   "main": "ships.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",
