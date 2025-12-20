@@ -2,7 +2,7 @@ import createBoard from "./gameboard";
 
 // Check if array has unique items
 const checkArrayForUniques = (array) => {
-  const newSet = new set(array);
+  const newSet = new Set(array);
   const setArray = [...newSet];
 
   if (setArray.length === array.length) {
@@ -31,7 +31,7 @@ test("Each cell has a unique id", () => {
   const newBoard = createBoard("Player1", "Ship");
   let ids = [];
 
-  for (let i = 0; i < 101; i++) {
+  for (let i = 0; i < 100; i++) {
     ids.push(newBoard.board[i].id);
   }
 
@@ -39,13 +39,13 @@ test("Each cell has a unique id", () => {
 });
 
 test("A cell has a hit condition", () => {
-  const boardCells = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Player1", "Ship");
 
-  expect(Object.hasOwn(boardCells.board[0], "hit")).toBe(true);
+  expect(newBoard.board[0].hit).toBe(false);
 });
 
 test("The board has a shipPositions array", () => {
-  const boardCells = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Player1", "Ship");
 
-  expect(Object.hasOwn(boardCells, "shipPositions")).toBe(true);
+  expect(Object.hasOwn(newBoard, "shipPositions")).toBe(true);
 });
