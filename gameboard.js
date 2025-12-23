@@ -23,7 +23,7 @@ class Cell {
     this.id = id;
     this.x = x;
     this.y = y;
-    this.hit = false;
+    this.miss = false;
   }
 }
 
@@ -73,6 +73,10 @@ class Gameboard {
 
     return coordinates;
   }
+
+  receiveAttack(attackCoordinate) {}
+
+  allshipsSunk() {}
 }
 
 const createBoard = (player, type) => {
