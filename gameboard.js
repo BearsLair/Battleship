@@ -74,9 +74,47 @@ class Gameboard {
     return coordinates;
   }
 
-  receiveAttack(attackCoordinate) {}
+  receiveAttack(attackCoordinate) {
+    // Check if coordinate matches a ship position first
+    // Send hit to ship, and hit coordinates
+    let missed = true;
+
+    for (let i = 0; i < this.shipPositions.length; i++) {
+      if (
+        this.arrayPresent(
+          this.shipPositions[i].ocuppiedCoordinates,
+          attackCoordinate
+        )
+      ) {
+        this.shipPositions[i].hit(attackCoordinate);
+        missed = false;
+        break;
+      }
+    }
+
+    // Else, Send coordinate to missed Cell
+    if (missed === true) {
+    }
+  }
 
   allshipsSunk() {}
+
+  arrayPresent(parentArray, targetArray) {
+    if (parentArray.length === 0) {
+      return false;
+    }
+
+    const x = targetArray[0];
+    const y = targetArray[1];
+
+    for (let i = 0; i < parentArray.length; i++) {
+      if (parentArray[i][0] === x && parentArray[i][1] === y) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }
 
 const createBoard = (player, type) => {
