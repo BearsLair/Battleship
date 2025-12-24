@@ -94,6 +94,14 @@ class Gameboard {
 
     // Else, Send coordinate to missed Cell
     if (missed === true) {
+      for (let i = 0; i < this.board.length; i++) {
+        if (
+          this.board[i].x === attackCoordinate[0] &&
+          this.board[i].y === attackCoordinate[1]
+        ) {
+          this.board[i].miss = true;
+        }
+      }
     }
   }
 
