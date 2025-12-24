@@ -23,7 +23,6 @@ class Cell {
     this.id = id;
     this.x = x;
     this.y = y;
-    this.miss = false;
   }
 }
 
@@ -35,6 +34,7 @@ class Gameboard {
     this.type = type;
     this.board = [];
     this.shipPositions = [];
+    this.missedAttacks = [];
   }
 
   addShips() {
@@ -94,14 +94,7 @@ class Gameboard {
 
     // Else, Send coordinate to missed Cell
     if (missed === true) {
-      for (let i = 0; i < this.board.length; i++) {
-        if (
-          this.board[i].x === attackCoordinate[0] &&
-          this.board[i].y === attackCoordinate[1]
-        ) {
-          this.board[i].miss = true;
-        }
-      }
+      this.missedAttacks.push(attackCoordinate);
     }
   }
 

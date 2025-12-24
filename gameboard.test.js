@@ -56,12 +56,6 @@ test("Each cell has a unique id", () => {
   expect(checkArrayForUniques(ids)).toBe(true);
 });
 
-test("A cell has a miss condition", () => {
-  const newBoard = createBoard("Player1", "Ship");
-
-  expect(newBoard.board[0].miss).toBe(false);
-});
-
 test("The board has a shipPositions array", () => {
   const newBoard = createBoard("Player1", "Ship");
 
@@ -148,7 +142,7 @@ test("Received an attack that missed a ship", () => {
   const newBoard = createBoard("Player1", "Ship");
   newBoard.addShips();
   newBoard.receiveAttack([0, 0]);
-  expect(newBoard.board[0].miss).toBe(true);
+  expect(newBoard.missedAttacks[0]).toStrictEqual([0, 0]);
 });
 
 test("Carrier received an attack that reduced hitpoints to 4", () => {
