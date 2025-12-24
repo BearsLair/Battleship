@@ -1,13 +1,5 @@
 import createFleet from "./ships";
 
-const mockPlacement = [
-  ["Carrier", "B1", "horizontal"],
-  ["Battleship", "B5", "vertical"],
-  ["Cruiser", "D7", "horizontal"],
-  ["Submarine", "I2", "vertical"],
-  ["Destroyer", "G5", "horizontal"],
-];
-
 // Both Players (or CPUs) have two boards:
 //      1. PLayer Ship Placement Board (10 x 10)
 //      2. PLayer Hit Strategy Board (10 x 10)
@@ -37,14 +29,14 @@ class Gameboard {
     this.missedAttacks = [];
   }
 
-  addShips() {
+  addShips(placementsArray) {
     const fleet = createFleet();
 
     let curr;
     let coordinates = [];
 
     for (let i = 0; i < 5; i++) {
-      curr = mockPlacement[i];
+      curr = placementsArray[i];
       coordinates = this.shipCoordinates(fleet[i].length, curr[1], curr[2]);
       fleet[i].ocuppiedCoordinates = coordinates;
       this.shipPositions.push(fleet[i]);
@@ -98,7 +90,18 @@ class Gameboard {
     }
   }
 
-  allshipsSunk() {}
+  allshipsSunk() {
+    let shipSunkCount = 0;
+    for (let i = 0; i < this.shipPositions.length; i++) {
+      if (this.shipPositions[i].isSunk) {
+        shipSunkCount++;
+      }
+    }
+
+    if (shipSunkCount === 5) {
+      return "All Ships Sunk!";
+    }
+  }
 
   arrayPresent(parentArray, targetArray) {
     if (parentArray.length === 0) {
