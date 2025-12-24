@@ -1,14 +1,20 @@
 class Ship {
-  constructor(type, length, hitPoints) {
+  constructor(type, length) {
     this.type = type;
     this.length = length;
-    this.hitPoints = hitPoints;
+    this.hitPoints = length;
     this.isSunk = false;
     this.ocuppiedCoordinates = [];
+    this.hitCoordinates = [];
   }
 
-  hit() {
-    this.hitPoints - 1;
+  hit(coor) {
+    this.hitPoints--;
+    this.hitCoordinates.push(coor);
+
+    if (this.hitPoints === 0) {
+      this.isSunkFunc();
+    }
   }
   isSunkFunc() {
     if (this.hitPoints === 0) {
@@ -30,7 +36,7 @@ const createFleet = () => {
   let fleet = [];
 
   for (let i = 0; i < shipTypes.length; i++) {
-    currentShip = new Ship(shipTypes[i][0], shipTypes[i][1], shipTypes[i][1]);
+    currentShip = new Ship(shipTypes[i][0], shipTypes[i][1]);
     fleet.push(currentShip);
   }
   return fleet;
