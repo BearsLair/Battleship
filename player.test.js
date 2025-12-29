@@ -1,5 +1,5 @@
-import Player from "./player";
-import createBoard from "./gameboard";
+const Player = require("./player");
+const createBoard = require("./gameboard");
 
 let playerOne;
 let playerTwo;

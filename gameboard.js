@@ -1,4 +1,4 @@
-import createFleet from "./ships";
+const createFleet = require("./ships");
 
 // Both Players (or CPUs) have two boards:
 //      1. PLayer Ship Placement Board (10 x 10)
@@ -136,4 +136,4 @@ const createBoard = () => {
   return newBoard;
 };
 
-export default createBoard;
+module.exports = createBoard;

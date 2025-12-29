@@ -1,4 +1,4 @@
-import createBoard from "./gameboard";
+const createBoard = require("./gameboard");
 
 // Check if array has unique items
 const checkArrayForUniques = (array) => {

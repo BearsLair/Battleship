@@ -42,4 +42,4 @@ const createFleet = () => {
   return fleet;
 };
 
-export default createFleet;
+module.exports = createFleet;
