@@ -12,11 +12,6 @@ const checkArrayForUniques = (array) => {
   }
 };
 
-test("GameBoard has a type", () => {
-  const newBoard = createBoard("Ship");
-  expect(newBoard.type).toBe("Ship");
-});
-
 test("There are 100 cells", () => {
   const newBoard = createBoard("Ship");
   expect(newBoard.board).toHaveLength(100);
