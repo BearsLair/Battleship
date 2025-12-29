@@ -12,23 +12,18 @@ const checkArrayForUniques = (array) => {
   }
 };
 
-test("Gameboard has a player", () => {
-  const newBoard = createBoard("Player1", "Ship");
-  expect(newBoard.player).toBe("Player1");
-});
-
 test("GameBoard has a type", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   expect(newBoard.type).toBe("Ship");
 });
 
 test("There are 100 cells", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   expect(newBoard.board).toHaveLength(100);
 });
 
 test("Each cell has a unique id", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   let ids = [];
 
   for (let i = 0; i < 100; i++) {
@@ -39,7 +34,7 @@ test("Each cell has a unique id", () => {
 });
 
 test("The board has a shipPositions array", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
 
   expect(Object.hasOwn(newBoard, "shipPositions")).toBe(true);
 });
@@ -52,7 +47,7 @@ test("A cell has inverted postive x,y coordinates", () => {
 });
 
 test("shipPositions array has length of five", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
@@ -64,7 +59,7 @@ test("shipPositions array has length of five", () => {
 });
 
 test("The ships are carrier, battleship, cruiser, submarine, and destoyer", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
@@ -80,7 +75,7 @@ test("The ships are carrier, battleship, cruiser, submarine, and destoyer", () =
 });
 
 test("Carrier at B1 in horizontal position", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
@@ -98,7 +93,7 @@ test("Carrier at B1 in horizontal position", () => {
 });
 
 test("Battleship at B5 in vertical position", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
@@ -115,7 +110,7 @@ test("Battleship at B5 in vertical position", () => {
 });
 
 test("arrayPresent returns correctly", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   expect(
     newBoard.arrayPresent(
       [
@@ -139,7 +134,7 @@ test("arrayPresent returns correctly", () => {
 });
 
 test("Ship positions array on the board is not empty", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
@@ -151,7 +146,7 @@ test("Ship positions array on the board is not empty", () => {
 });
 
 test("Received an attack that missed a ship", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
@@ -164,7 +159,7 @@ test("Received an attack that missed a ship", () => {
 });
 
 test("Carrier received an attack that reduced hitpoints to 4", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
@@ -177,7 +172,7 @@ test("Carrier received an attack that reduced hitpoints to 4", () => {
 });
 
 test("Carrier received an attack on coordinate [3,0]", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
@@ -190,7 +185,7 @@ test("Carrier received an attack on coordinate [3,0]", () => {
 });
 
 test("All ships sunk returns 'All Ships Sunk!'", () => {
-  const newBoard = createBoard("Player1", "Ship");
+  const newBoard = createBoard("Ship");
   newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],

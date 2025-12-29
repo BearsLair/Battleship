@@ -121,7 +121,7 @@ class Gameboard {
 }
 
 const createBoard = (type) => {
-  let newBoard = new Gameboard(player, type);
+  let newBoard = new Gameboard(type);
 
   const charArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   const numArray = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
