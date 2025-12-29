@@ -1,9 +1,9 @@
 class Player {
-  constructor(name, humanOrCPU) {
+  constructor(name, humanOrCPU, shipBoard, strategyBoard) {
     this.name = name;
     this.humanOrCPU = humanOrCPU;
-    this.shipBoard = {};
-    this.strategyBoard = {};
+    this.shipBoard = shipBoard;
+    this.strategyBoard = strategyBoard;
   }
 }
 
