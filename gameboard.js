@@ -21,8 +21,7 @@ class Cell {
 // Type in Gameboard class refers to "Ship" placement board,
 // or "Strategy" board for recording hits and misses on opponent.
 class Gameboard {
-  constructor(player, type) {
-    this.player = player;
+  constructor(type) {
     this.type = type;
     this.board = [];
     this.shipPositions = [];
@@ -121,7 +120,7 @@ class Gameboard {
   }
 }
 
-const createBoard = (player, type) => {
+const createBoard = (type) => {
   let newBoard = new Gameboard(player, type);
 
   const charArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
