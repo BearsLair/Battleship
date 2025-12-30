@@ -1,4 +1,4 @@
-const createFleet = require("./ships");
+import createFleet from "./ships";
 
 test("Each ship object has a type", () => {
   const data = createFleet();
