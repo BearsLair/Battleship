@@ -1,4 +1,4 @@
-import gameStartDisplay from "./display.js";
+import { gameStartDisplay, gameBoardDisplay } from "./display.js";
 
 let playerOne;
 let playerTwo;
@@ -20,6 +20,12 @@ const gameStart = () => {
 
 const gameLogic = () => {
   document.body.replaceChildren();
+
+  console.log("Should display something grid");
+
+  gameBoardDisplay();
 };
 
-gameStart();
+// gameStart();
+
+gameLogic();
