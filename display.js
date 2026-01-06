@@ -44,7 +44,22 @@ const gameStartDisplay = () => {
 const gameBoardDisplay = () => {
   console.log("gameBoardDisplay accessed...");
 
+  const body = document.body;
+  const playerBoardsDiv = document.createElement("div");
+  body.appendChild(playerBoardsDiv);
+  playerBoardsDiv.classList.add("playerboards");
+  Object.assign(playerBoardsDiv.style, {
+    margin: 0,
+    padding: 0,
+    height: "100vh",
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  });
+
   singleGameGrid("ship");
+  singleGameGrid("strategy");
 };
 
 const singleGameGrid = (type) => {
@@ -58,10 +73,11 @@ const singleGameGrid = (type) => {
 
   console.log("attempting to create 10x10 grid...");
 
-  const body = document.body;
-
   const board = document.createElement("div");
-  body.appendChild(board);
+
+  const playerBoards = document.querySelector(".playerboards");
+
+  playerBoards.appendChild(board);
   Object.assign(board.style, {
     display: "flex",
     flexDirection: "column",
