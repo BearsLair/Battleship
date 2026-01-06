@@ -118,6 +118,12 @@ const singleGameGrid = (type) => {
     });
 
     gridContainerDiv.appendChild(cell);
+
+    if (type === "strategy") {
+      cell.addEventListener("click", () => {
+        console.log(`Miss on cell ${cell.id}`);
+      });
+    }
   }
 };
 
