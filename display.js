@@ -104,7 +104,7 @@ const singleGameGrid = (type) => {
 
     cell.id = `${i}`;
 
-    cell.textContent = `${i}`;
+    // cell.textContent = `${i}`;
 
     Object.assign(cell.style, {
       display: "flex",
@@ -114,6 +114,7 @@ const singleGameGrid = (type) => {
       height: "100%",
       width: "100%",
       border: "1px solid black",
+      backgroundColor: "#4db8ff",
     });
 
     gridContainerDiv.appendChild(cell);
