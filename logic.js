@@ -1,7 +1,11 @@
 import { gameStartDisplay, gameBoardDisplay } from "./display.js";
+import createBoard from "./gameboard.js";
+import createFleet from "./ships.js";
 
 let playerOne;
 let playerTwo;
+let playerOneFleet;
+let playerOneBoard;
 
 const gameStart = () => {
   gameStartDisplay();
@@ -18,12 +22,25 @@ const gameStart = () => {
   });
 };
 
+// const placeShips = () => {}
+
 const gameLogic = () => {
   document.body.replaceChildren();
 
-  console.log("Should display something grid");
+  console.log("Should display player grids");
 
-  gameBoardDisplay();
+  // For testing //
+  const playerOneFleet = createFleet();
+  const playerOneBoard = createBoard();
+  playerOneBoard.addShips(playerOneFleet, [
+    ["Carrier", "B1", "horizontal"],
+    ["Battleship", "B5", "vertical"],
+    ["Cruiser", "D7", "horizontal"],
+    ["Submarine", "I2", "vertical"],
+    ["Destroyer", "G5", "horizontal"],
+  ]);
+  //////////////////
+  gameBoardDisplay(playerOneBoard);
 };
 
 // gameStart();

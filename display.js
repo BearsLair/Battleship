@@ -41,7 +41,7 @@ const gameStartDisplay = () => {
   });
 };
 
-const gameBoardDisplay = () => {
+const gameBoardDisplay = (playerBoard) => {
   console.log("gameBoardDisplay accessed...");
 
   const body = document.body;
@@ -58,11 +58,11 @@ const gameBoardDisplay = () => {
     justifyContent: "space-evenly",
   });
 
-  singleGameGrid("ship");
-  singleGameGrid("strategy");
+  singleGameGrid(playerBoard, "ship");
+  // singleGameGrid(playerBoard, "strategy");
 };
 
-const singleGameGrid = (type) => {
+const singleGameGrid = (playerBoard, type) => {
   let title;
 
   if (type === "ship") {
@@ -98,13 +98,35 @@ const singleGameGrid = (type) => {
     gridTemplateColumns: "repeat(10, 50px)",
     gridTemplateRows: "repeat(10 50px)",
   });
+  // Obtain ids of cells occupied by each ship to display on grid
 
-  for (let i = 1; i < 101; i++) {
+  const charArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  const numArray = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+  for (let i = 0; i < playerBoard.shipPositions.length; i++) {
+    let current = playerBoard.shipPositions[i].ocuppiedCoordinates;
+
+    for (let k = 0; k < current.length; k++) {
+      let x = current[k][0];
+      let char = charArray[x];
+      let y = current[k][1];
+      let num = numArray[y];
+
+      let id = char + num;
+
+      current[k] = id;
+    }
+  }
+
+  console.log(playerBoard.shipPositions[1]);
+
+  // Create individual cells to be displayed, all 100
+  for (let i = 0; i < 100; i++) {
     let cell = document.createElement("div");
 
-    cell.id = `${i}`;
+    cell.id = `${playerBoard.board[i].id}`;
 
-    // cell.textContent = `${i}`;
+    cell.textContent = `${playerBoard.board[i].id}`;
 
     Object.assign(cell.style, {
       display: "flex",

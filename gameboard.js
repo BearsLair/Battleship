@@ -1,5 +1,3 @@
-import createFleet from "./ships";
-
 // Both Players (or CPUs) have two boards:
 //      1. PLayer Ship Placement Board (10 x 10)
 //      2. PLayer Hit Strategy Board (10 x 10)
@@ -25,8 +23,8 @@ class Gameboard {
     this.missedAttacks = [];
   }
 
-  addShips(placementsArray) {
-    const fleet = createFleet();
+  addShips(playerFleet, placementsArray) {
+    const fleet = playerFleet;
 
     let curr;
     let coordinates = [];
