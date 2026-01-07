@@ -59,7 +59,7 @@ const gameBoardDisplay = (playerBoard) => {
   });
 
   singleGameGrid(playerBoard, "ship");
-  // singleGameGrid(playerBoard, "strategy");
+  singleGameGrid(playerBoard, "strategy");
 };
 
 const singleGameGrid = (playerBoard, type) => {
@@ -100,6 +100,8 @@ const singleGameGrid = (playerBoard, type) => {
   });
   // Obtain ids of cells occupied by each ship to display on grid
 
+  let shipCells = [];
+
   const charArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   const numArray = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 
@@ -115,8 +117,11 @@ const singleGameGrid = (playerBoard, type) => {
       let id = char + num;
 
       current[k] = id;
+      shipCells.push(id);
     }
   }
+
+  console.log(shipCells);
 
   console.log(playerBoard.shipPositions[1]);
 
@@ -126,7 +131,43 @@ const singleGameGrid = (playerBoard, type) => {
 
     cell.id = `${playerBoard.board[i].id}`;
 
-    cell.textContent = `${playerBoard.board[i].id}`;
+    if (type === "ship") {
+      if (shipCells.includes(playerBoard.board[i].id)) {
+        for (let k = 0; k < playerBoard.shipPositions.length; k++) {
+          let shipType = playerBoard.shipPositions[k].type;
+
+          if (
+            playerBoard.shipPositions[k].ocuppiedCoordinates.includes(
+              playerBoard.board[i].id
+            )
+          ) {
+            switch (shipType) {
+              case "Carrier":
+                cell.textContent = "Car";
+                break;
+              case "Battleship":
+                cell.textContent = "Bat";
+                break;
+              case "Cruiser":
+                cell.textContent = "Cru";
+                break;
+              case "Submarine":
+                cell.textContent = "Sub";
+                break;
+              case "Destroyer":
+                cell.textContent = "Des";
+                break;
+            }
+          }
+        }
+      } else {
+        cell.textContent = `${playerBoard.board[i].id}`;
+      }
+    }
+
+    if (type === "strategy") {
+      cell.textContent = `${playerBoard.board[i].id}`;
+    }
 
     Object.assign(cell.style, {
       display: "flex",
