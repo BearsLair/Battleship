@@ -41,7 +41,7 @@ const gameStartDisplay = () => {
   });
 };
 
-const gameBoardDisplay = (playerBoard) => {
+const gameBoardDisplay = (playerBoard, name) => {
   console.log("gameBoardDisplay accessed...");
 
   const body = document.body;
@@ -51,24 +51,27 @@ const gameBoardDisplay = (playerBoard) => {
   Object.assign(playerBoardsDiv.style, {
     margin: 0,
     padding: 0,
-    height: "100vh",
+    height: "200vh",
     width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
+    // display: "flex",
+    // flexDirection: "row",
+    // justifyContent: "space-evenly",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gridTemplateRows: "1fr 1fr",
   });
 
-  singleGameGrid(playerBoard, "ship");
-  singleGameGrid(playerBoard, "strategy");
+  singleGameGrid(playerBoard, "ship", name);
+  singleGameGrid(playerBoard, "strategy", name);
 };
 
 const singleGameGrid = (playerBoard, type) => {
   let title;
 
   if (type === "ship") {
-    title = "Your Ships";
+    title = `${playerBoard.name}'s Ships`;
   } else if (type === "strategy") {
-    title = "Your Hits and Misses";
+    title = `${playerBoard.name}'s Hits and Misses`;
   }
 
   console.log("attempting to create 10x10 grid...");

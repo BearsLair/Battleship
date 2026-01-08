@@ -17,7 +17,8 @@ class Cell {
 }
 
 class Gameboard {
-  constructor() {
+  constructor(name) {
+    this.name = name;
     this.board = [];
     this.shipPositions = [];
     this.missedAttacks = [];
@@ -115,8 +116,8 @@ class Gameboard {
   }
 }
 
-const createBoard = () => {
-  let newBoard = new Gameboard();
+const createBoard = (playerName) => {
+  let newBoard = new Gameboard(playerName);
 
   const charArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   const numArray = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];

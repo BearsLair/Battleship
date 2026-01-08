@@ -4,8 +4,11 @@ import createFleet from "./ships.js";
 
 let playerOne;
 let playerTwo;
-let playerOneFleet;
-let playerOneBoard;
+
+// For testing
+playerOne = "Patrick";
+playerTwo = "CPU";
+//////////////
 
 const gameStart = () => {
   gameStartDisplay();
@@ -31,7 +34,7 @@ const gameLogic = () => {
 
   // For testing //
   const playerOneFleet = createFleet();
-  const playerOneBoard = createBoard();
+  const playerOneBoard = createBoard(playerOne);
   playerOneBoard.addShips(playerOneFleet, [
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
@@ -41,6 +44,18 @@ const gameLogic = () => {
   ]);
   //////////////////
   gameBoardDisplay(playerOneBoard);
+
+  const playerTwoFleet = createFleet();
+  const playerTwoBoard = createBoard(playerTwo);
+  playerTwoBoard.addShips(playerTwoFleet, [
+    ["Carrier", "B9", "horizontal"],
+    ["Battleship", "B4", "vertical"],
+    ["Cruiser", "F2", "horizontal"],
+    ["Submarine", "H6", "vertical"],
+    ["Destroyer", "H10", "horizontal"],
+  ]);
+  //////////////////
+  gameBoardDisplay(playerTwoBoard);
 };
 
 // gameStart();
