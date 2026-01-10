@@ -20,8 +20,12 @@ class Gameboard {
   constructor(name) {
     this.name = name;
     this.board = [];
+    // Both below for Own Ships
     this.shipPositions = [];
+    this.opponentMisses = [];
+    // Both below for tracking misses and hits on opponent
     this.missedAttacks = [];
+    this.hitsOnOpponents = [];
   }
 
   addShips(playerFleet, placementsArray) {
