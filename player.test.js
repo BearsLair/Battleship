@@ -1,10 +1,13 @@
 import Player from "./player";
 import createBoard from "./gameboard";
+import createFleet from "./ships";
 
 let playerOne;
 let playerTwo;
 
 beforeEach(() => {
+  const playerFleet = createFleet();
+
   playerOne = new Player(
     "Patrick",
     "human",
@@ -19,14 +22,14 @@ beforeEach(() => {
     createBoard("strategy")
   );
 
-  playerOne.shipBoard.addShips([
+  playerOne.shipBoard.addShips(playerFleet, [
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
     ["Cruiser", "D7", "horizontal"],
     ["Submarine", "I2", "vertical"],
     ["Destroyer", "G5", "horizontal"],
   ]);
-  playerTwo.shipBoard.addShips([
+  playerTwo.shipBoard.addShips(playerFleet, [
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
     ["Cruiser", "D7", "horizontal"],
