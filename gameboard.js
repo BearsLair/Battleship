@@ -19,6 +19,7 @@ class Cell {
 class Gameboard {
   constructor(name) {
     this.name = name;
+    // Need the board for ship placement and CPU opponent
     this.board = [];
     // Both below for Ships Board
     this.shipPositions = [];
