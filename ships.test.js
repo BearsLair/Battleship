@@ -26,3 +26,21 @@ test("Each ship object has a sunk method", () => {
     true
   );
 });
+
+test("Each ship's ocuppiedCoordinates array should be empty", () => {
+  const data = createFleet();
+  expect(data[0].ocuppiedCoordinates).toStrictEqual([]);
+  expect(data[1].ocuppiedCoordinates).toStrictEqual([]);
+  expect(data[2].ocuppiedCoordinates).toStrictEqual([]);
+  expect(data[3].ocuppiedCoordinates).toStrictEqual([]);
+  expect(data[4].ocuppiedCoordinates).toStrictEqual([]);
+});
+
+test("Each ship's hitCoordinates array should be empty", () => {
+  const data = createFleet();
+  expect(data[0].hitCoordinates).toStrictEqual([]);
+  expect(data[1].hitCoordinates).toStrictEqual([]);
+  expect(data[2].hitCoordinates).toStrictEqual([]);
+  expect(data[3].hitCoordinates).toStrictEqual([]);
+  expect(data[4].hitCoordinates).toStrictEqual([]);
+});
