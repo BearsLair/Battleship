@@ -52,6 +52,7 @@ const gameBoardDisplay = () => {
   body.replaceChildren();
 
   const gameBoardDiv = document.createElement("div");
+  gameBoardDiv.classList.add("gameBoardDiv");
   body.appendChild(gameBoardDiv);
   Object.assign(gameBoardDiv.style, {
     margin: 0,
@@ -64,8 +65,54 @@ const gameBoardDisplay = () => {
   });
 };
 
-const displayCell = () => {};
+const displayGrid = (gridID) => {
+  const gridDiv = document.createElement("div");
+  const gameBoardDiv = document.querySelector(".gameBoardDiv");
+  gameBoardDiv.appendChild(gridDiv);
 
-const displayGrid = () => {};
+  Object.assign(grid.style, {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 0,
+    padding: 0,
+  });
+
+  const grid = document.createElement("div");
+  gameBoardDiv.appendChild(grid);
+  grid.classList.add("grid");
+  grid.id = gridID;
+
+  Object.assign(grid.style, {
+    margin: 0,
+    padding: 0,
+    display: "grid",
+    gridTemplateColumns: "repeat(10, 50px)",
+    gridTemplateRows: "repeat(10, 50px)",
+  });
+
+  const alphaColumns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  const numericRows = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+  for (let i = 0; i < 10; i++) {
+    for (let k = 0; k < 10; k++) {
+      const cell = document.createElement("div");
+      grid.appendChild(cell);
+      Object.assign(cell.style, {
+        margin: 0,
+        padding: 0,
+        border: "1px solid black",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      });
+
+      cell.id = alphaColumns[k] + numericRows[i];
+      cell.textContent = cell.id;
+    }
+  }
+};
+
+const displayCell = () => {};
 
 export default gameStartDisplay;
