@@ -20,25 +20,29 @@ class Gameboard {
   constructor(name) {
     this.name = name;
     this.board = [];
-    // Both below for Own Ships
+    // Both below for Ships Board
     this.shipPositions = [];
     this.opponentMisses = [];
-    // Both below for tracking misses and hits on opponent
-    this.missedAttacks = [];
+    // Both below for tracking misses and hits on opponent via
+    // strategy board
+    this.missedAttacksOnOpponent = [];
     this.hitsOnOpponents = [];
   }
 
-  addShips(playerFleet, placementsArray) {
-    const fleet = playerFleet;
-
+  addShips(placementsArray) {
     let curr;
     let coordinates = [];
 
+    console.log(this.shipPositions);
+
     for (let i = 0; i < 5; i++) {
       curr = placementsArray[i];
-      coordinates = this.shipCoordinates(fleet[i].length, curr[1], curr[2]);
-      fleet[i].ocuppiedCoordinates = coordinates;
-      this.shipPositions.push(fleet[i]);
+      coordinates = this.shipCoordinates(
+        this.shipPositions[i].length,
+        curr[1],
+        curr[2]
+      );
+      this.shipPositions[i].ocuppiedCoordinates = coordinates;
     }
   }
 
