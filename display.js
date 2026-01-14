@@ -1,5 +1,11 @@
 const gameStartDisplay = () => {
-  const body = document.querySelector("body");
+  const body = document.body;
+  Object.assign(body.style, {
+    display: "border-box",
+    margin: 0,
+    padding: 0,
+  });
+
   const title = document.createElement("h1");
   title.textContent = "Welcome to Battleship!";
   body.appendChild(title);
@@ -40,5 +46,26 @@ const gameStartDisplay = () => {
     let playerTwo = playerTwoInput.value;
   });
 };
+
+const gameBoardDisplay = () => {
+  const body = document.body;
+  body.replaceChildren();
+
+  const gameBoardDiv = document.createElement("div");
+  body.appendChild(gameBoardDiv);
+  Object.assign(gameBoardDiv.style, {
+    margin: 0,
+    padding: 0,
+    height: "150vh",
+    width: "100%",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gridTemplateRows: "1fr 1fr",
+  });
+};
+
+const displayCell = () => {};
+
+const displayGrid = () => {};
 
 export default gameStartDisplay;
