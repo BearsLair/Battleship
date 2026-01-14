@@ -57,7 +57,7 @@ const gameBoardDisplay = () => {
   Object.assign(gameBoardDiv.style, {
     margin: 0,
     padding: 0,
-    height: "150vh",
+    height: "200vh",
     width: "100%",
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
@@ -70,16 +70,20 @@ const displayGrid = (gridID) => {
   const gameBoardDiv = document.querySelector(".gameBoardDiv");
   gameBoardDiv.appendChild(gridDiv);
 
-  Object.assign(grid.style, {
+  Object.assign(gridDiv.style, {
     display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     margin: 0,
     padding: 0,
   });
 
+  const title = document.createElement("h3");
+  title.textContent = gridID;
   const grid = document.createElement("div");
-  gameBoardDiv.appendChild(grid);
+  gridDiv.appendChild(title);
+  gridDiv.appendChild(grid);
   grid.classList.add("grid");
   grid.id = gridID;
 
@@ -113,6 +117,4 @@ const displayGrid = (gridID) => {
   }
 };
 
-const displayCell = () => {};
-
-export default gameStartDisplay;
+export { gameStartDisplay, gameBoardDisplay, displayGrid };

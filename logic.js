@@ -1,4 +1,4 @@
-import gameStartDisplay from "./display.js";
+import { gameStartDisplay, gameBoardDisplay, displayGrid } from "./display.js";
 import createBoard from "./gameboard.js";
 import createFleet from "./ships.js";
 import Player from "./player.js";
@@ -40,10 +40,18 @@ const gameStart = () => {
     console.log("playerOne: ", playerOne);
     console.log("playerTwo: ", playerTwo);
 
-    // gameLogic();
+    gameLogic(playerOne, playerTwo);
   });
 };
 
 // const placeShips = () => {}
+
+const gameLogic = (playerOne, playerTwo) => {
+  gameBoardDisplay();
+  displayGrid(playerOne.name + "-" + "ship");
+  displayGrid(playerOne.name + "-" + "strategy");
+  displayGrid(playerTwo.name + "-" + "ship");
+  displayGrid(playerTwo.name + "-" + "strategy");
+};
 
 gameStart();
