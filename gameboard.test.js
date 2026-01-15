@@ -45,7 +45,8 @@ test("A cell has inverted postive x,y coordinates", () => {
 test("shipPositions array has length of five", () => {
   const newBoard = createBoard("Ship");
   const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
+  newBoard.shipPositions = playerFleet;
+  newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
     ["Cruiser", "D7", "horizontal"],
@@ -58,7 +59,8 @@ test("shipPositions array has length of five", () => {
 test("The ships are carrier, battleship, cruiser, submarine, and destoyer", () => {
   const newBoard = createBoard("Ship");
   const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
+  newBoard.shipPositions = playerFleet;
+  newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
     ["Cruiser", "D7", "horizontal"],
@@ -75,7 +77,8 @@ test("The ships are carrier, battleship, cruiser, submarine, and destoyer", () =
 test("Carrier at B1 in horizontal position", () => {
   const newBoard = createBoard("Ship");
   const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
+  newBoard.shipPositions = playerFleet;
+  newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
     ["Cruiser", "D7", "horizontal"],
@@ -94,7 +97,8 @@ test("Carrier at B1 in horizontal position", () => {
 test("Battleship at B5 in vertical position", () => {
   const newBoard = createBoard("Ship");
   const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
+  newBoard.shipPositions = playerFleet;
+  newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
     ["Cruiser", "D7", "horizontal"],
@@ -136,7 +140,8 @@ test("arrayPresent returns correctly", () => {
 test("Ship positions array on the board is not empty", () => {
   const newBoard = createBoard("Ship");
   const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
+  newBoard.shipPositions = playerFleet;
+  newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
     ["Cruiser", "D7", "horizontal"],
@@ -149,7 +154,8 @@ test("Ship positions array on the board is not empty", () => {
 test("Received an attack that missed a ship", () => {
   const newBoard = createBoard("Ship");
   const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
+  newBoard.shipPositions = playerFleet;
+  newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
     ["Cruiser", "D7", "horizontal"],
@@ -157,13 +163,14 @@ test("Received an attack that missed a ship", () => {
     ["Destroyer", "G5", "horizontal"],
   ]);
   newBoard.receiveAttack([0, 0]);
-  expect(newBoard.missedAttacks[0]).toStrictEqual([0, 0]);
+  expect(newBoard.opponentMisses[0]).toStrictEqual([0, 0]);
 });
 
 test("Carrier received an attack that reduced hitpoints to 4", () => {
   const newBoard = createBoard("Ship");
   const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
+  newBoard.shipPositions = playerFleet;
+  newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
     ["Cruiser", "D7", "horizontal"],
@@ -177,7 +184,8 @@ test("Carrier received an attack that reduced hitpoints to 4", () => {
 test("Carrier received an attack on coordinate [3,0]", () => {
   const newBoard = createBoard("Ship");
   const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
+  newBoard.shipPositions = playerFleet;
+  newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
     ["Cruiser", "D7", "horizontal"],
@@ -191,7 +199,8 @@ test("Carrier received an attack on coordinate [3,0]", () => {
 test("All ships sunk returns 'All Ships Sunk!'", () => {
   const newBoard = createBoard("Ship");
   const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
+  newBoard.shipPositions = playerFleet;
+  newBoard.addShips([
     ["Carrier", "B1", "horizontal"],
     ["Battleship", "B5", "vertical"],
     ["Cruiser", "D7", "horizontal"],
