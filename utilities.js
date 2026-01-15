@@ -15,4 +15,6 @@ const toAlphaNumeric = (array) => {
   return alphaNumericArray;
 };
 
+const gridType = (playerNameString) => {};
+
 export default toAlphaNumeric;
