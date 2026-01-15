@@ -34,7 +34,7 @@ class Gameboard {
     let curr;
     let coordinates = [];
 
-    console.log(this.shipPositions);
+    // console.log(this.shipPositions);
 
     for (let i = 0; i < 5; i++) {
       curr = placementsArray[i];
@@ -90,7 +90,7 @@ class Gameboard {
 
     // Else, Send coordinate to missed Cell
     if (missed === true) {
-      this.missedAttacks.push(attackCoordinate);
+      this.opponentMisses.push(attackCoordinate);
     }
   }
 
