@@ -55,20 +55,29 @@ const gameStart = () => {
     ]);
     console.log("pOneShipPosCopy: ", pOneShipPosCopy);
 
-    // pTwoShipPosCopy = shipCoorToAlphaNum([...playerTwo.gameBoard.shipPositions]);
+    pTwoShipPosCopy = shipCoorToAlphaNum([
+      ...playerTwo.gameBoard.shipPositions,
+    ]);
 
     gameBoardDisplay();
 
-    // Alternate second parameter???
     displayGrid(
       playerOne.name + "-" + "ship",
-      pOneShipPosCopy,
       "ship",
+      pOneShipPosCopy,
       shipAbbreviation
     );
-    // displayGrid(playerOne.name + "-" + "strategy");
-    // displayGrid(playerTwo.name + "-" + "ship");
-    // displayGrid(playerTwo.name + "-" + "strategy");
+
+    displayGrid(playerOne.name + "-" + "strategy", "strategy");
+
+    displayGrid(
+      playerTwo.name + "-" + "ship",
+      "ship",
+      pTwoShipPosCopy,
+      shipAbbreviation
+    );
+
+    displayGrid(playerTwo.name + "-" + "strategy", "strategy");
 
     // gameLogic(playerOne, "ship");
     // gameLogic(playerOne, "strategy")
@@ -143,7 +152,7 @@ const gameBoardDisplay = () => {
   });
 };
 
-const displayGrid = (gridID, shipPositions, type, abbrCallback) => {
+const displayGrid = (gridID, type, shipPositions, abbrCallback) => {
   const gridDiv = document.createElement("div");
   const gameBoardDiv = document.querySelector(".gameBoardDiv");
   gameBoardDiv.appendChild(gridDiv);
@@ -193,23 +202,33 @@ const displayGrid = (gridID, shipPositions, type, abbrCallback) => {
 
       cell.id = alphaColumns[k] + numericRows[i];
 
-      for (let j = 0; j < shipPositions.length; j++) {
-        // console.log(shipPositions[j].ocuppiedCoordinates);
-        if (shipPositions[j].ocuppiedCoordinates.includes(cell.id)) {
-          shipPos = abbrCallback(shipPositions[j].type);
-          shipPresent = true;
+      if (type === "ship") {
+        for (let j = 0; j < shipPositions.length; j++) {
+          // console.log(shipPositions[j].ocuppiedCoordinates);
+          if (shipPositions[j].ocuppiedCoordinates.includes(cell.id)) {
+            shipPos = abbrCallback(shipPositions[j].type);
+            shipPresent = true;
+          }
         }
-      }
 
-      // if statement here
-      if (type === "ship" && shipPresent) {
-        cell.textContent = shipPos;
-      } else if (type === "ship" && ~shipPresent) {
+        // if statement here
+        if (type === "ship" && shipPresent) {
+          cell.textContent = shipPos;
+        } else if (type === "ship" && ~shipPresent) {
+          cell.textContent = cell.id;
+          // TODO: Logic for hits/misses
+        }
+      } else if (type === "strategy") {
         cell.textContent = cell.id;
+        // TODO: Logic for hits/misses
       }
     }
   }
 };
+
+// Game flow logic governed by clickable squares on player's
+// strategy (hits/misses on opponent) board, which manipulate
+// the global playerOne and playerTwo objects.
 
 // const gameLogic = (player, type) => {
 //   // Logic needed for determining grid type
