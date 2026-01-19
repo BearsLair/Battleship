@@ -1,13 +1,20 @@
-import { gameStartDisplay, gameBoardDisplay, displayGrid } from "./display.js";
 import createBoard from "./gameboard.js";
 import createFleet from "./ships.js";
 import Player from "./player.js";
-import toAlphaNumeric from "./utilities.js";
+import {
+  toAlphaNumeric,
+  shipAbbreviation,
+  shipAlphaNumToCoor,
+  shipCoorToAlphaNum,
+} from "./utilities.js";
 
 let playerOne = {};
 let playerTwo = {};
+let pOneShipPosCopy;
+let pTwoShipPosCopy;
 
 const gameStart = () => {
+  console.log("gameStart()");
   gameStartDisplay();
 
   submitBtn = document.querySelector("#submitBtn");
@@ -43,16 +50,27 @@ const gameStart = () => {
       ["Destroyer", "G10", "horizontal"],
     ]);
 
-    console.log("playerOne: ", playerOne);
-    console.log("playerTwo: ", playerTwo);
+    pOneShipPosCopy = shipCoorToAlphaNum([
+      ...playerOne.gameBoard.shipPositions,
+    ]);
+    console.log("pOneShipPosCopy: ", pOneShipPosCopy);
+
+    // pTwoShipPosCopy = shipCoorToAlphaNum([...playerTwo.gameBoard.shipPositions]);
 
     gameBoardDisplay();
-    displayGrid(playerOne.name + "-" + "ship");
-    displayGrid(playerOne.name + "-" + "strategy");
-    displayGrid(playerTwo.name + "-" + "ship");
-    displayGrid(playerTwo.name + "-" + "strategy");
 
-    gameLogic(playerOne, "ship");
+    // Alternate second parameter???
+    displayGrid(
+      playerOne.name + "-" + "ship",
+      pOneShipPosCopy,
+      "ship",
+      shipAbbreviation
+    );
+    // displayGrid(playerOne.name + "-" + "strategy");
+    // displayGrid(playerTwo.name + "-" + "ship");
+    // displayGrid(playerTwo.name + "-" + "strategy");
+
+    // gameLogic(playerOne, "ship");
     // gameLogic(playerOne, "strategy")
     // gameLogic(playerTwo, "ship");
     // gameLogic(playerTwo, "strategy")
@@ -61,39 +79,164 @@ const gameStart = () => {
 
 // const placeShips = () => {}
 
-const gameLogic = (player, type) => {
-  // Logic needed for determining grid type
+const gameStartDisplay = () => {
+  console.log("gameStartDisplay");
+  const body = document.body;
+  Object.assign(body.style, {
+    display: "border-box",
+    margin: 0,
+    padding: 0,
+  });
 
-  // For the ship board, show where ships are
-  // and display hit/misses.
-  // Re-render
-  if (type === "ship") {
-    // player.gameBoard.shipPositions[i].ocuppiedCoordinates
+  const title = document.createElement("h1");
+  title.textContent = "Welcome to Battleship!";
+  body.appendChild(title);
 
-    let alphaNumbericArray = [];
+  const hr = document.createElement("hr");
+  body.appendChild(hr);
 
-    for (let i = 0; i < 5; i++) {
-      alphaNumbericArray = [];
-      alphaNumbericArray = toAlphaNumeric(
-        player.gameBoard.shipPositions[i].ocuppiedCoordinates
-      );
-      player.gameBoard.shipPositions[i].ocuppiedCoordinates =
-        alphaNumbericArray;
-      console.log(
-        player.gameBoard.shipPositions[i].type +
-          " " +
-          player.gameBoard.shipPositions[i].ocuppiedCoordinates
-      );
+  const mainDiv = document.createElement("div");
+  body.appendChild(mainDiv);
+
+  const playerOneDiv = document.createElement("div");
+  mainDiv.appendChild(playerOneDiv);
+  const playerOneTitle = document.createElement("p");
+  playerOneDiv.appendChild(playerOneTitle);
+  playerOneTitle.textContent = "Player 1 Name: ";
+  const playerOneInput = document.createElement("input");
+  playerOneInput.setAttribute("id", "playerOneInput");
+  playerOneDiv.appendChild(playerOneInput);
+
+  const playerTwoDiv = document.createElement("div");
+  mainDiv.appendChild(playerTwoDiv);
+  const playerTwoTitle = document.createElement("p");
+  playerTwoDiv.appendChild(playerTwoTitle);
+  playerTwoTitle.textContent = "Player 2 Name: ";
+  const playerTwoInput = document.createElement("input");
+  playerTwoInput.setAttribute("id", "playerTwoInput");
+  playerTwoDiv.appendChild(playerTwoInput);
+
+  const submitBtnDiv = document.createElement("div");
+  mainDiv.appendChild(submitBtnDiv);
+  const submitBtn = document.createElement("button");
+  submitBtn.setAttribute("id", "submitBtn");
+  submitBtn.textContent = "Start!";
+  submitBtnDiv.appendChild(submitBtn);
+};
+
+const gameBoardDisplay = () => {
+  console.log("gameBoardDisplay()");
+  const body = document.body;
+  body.replaceChildren();
+
+  const gameBoardDiv = document.createElement("div");
+  gameBoardDiv.classList.add("gameBoardDiv");
+  body.appendChild(gameBoardDiv);
+  Object.assign(gameBoardDiv.style, {
+    margin: 0,
+    padding: 0,
+    height: "200vh",
+    width: "100%",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gridTemplateRows: "1fr 1fr",
+  });
+};
+
+const displayGrid = (gridID, shipPositions, type, abbrCallback) => {
+  const gridDiv = document.createElement("div");
+  const gameBoardDiv = document.querySelector(".gameBoardDiv");
+  gameBoardDiv.appendChild(gridDiv);
+
+  Object.assign(gridDiv.style, {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 0,
+    padding: 0,
+  });
+
+  const title = document.createElement("h3");
+  title.textContent = gridID;
+  const grid = document.createElement("div");
+  gridDiv.appendChild(title);
+  gridDiv.appendChild(grid);
+  grid.classList.add(gridID);
+
+  Object.assign(grid.style, {
+    margin: 0,
+    padding: 0,
+    display: "grid",
+    gridTemplateColumns: "repeat(10, 50px)",
+    gridTemplateRows: "repeat(10, 50px)",
+  });
+
+  const alphaColumns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  const numericRows = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+  for (let i = 0; i < 10; i++) {
+    for (let k = 0; k < 10; k++) {
+      const cell = document.createElement("div");
+      grid.appendChild(cell);
+      Object.assign(cell.style, {
+        margin: 0,
+        padding: 0,
+        border: "1px solid black",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      });
+
+      let shipPresent = false;
+      let shipPos;
+
+      cell.id = alphaColumns[k] + numericRows[i];
+
+      for (let j = 0; j < shipPositions.length; j++) {
+        // console.log(shipPositions[j].ocuppiedCoordinates);
+        if (shipPositions[j].ocuppiedCoordinates.includes(cell.id)) {
+          shipPos = abbrCallback(shipPositions[j].type);
+          shipPresent = true;
+        }
+      }
+
+      // if statement here
+      if (type === "ship" && shipPresent) {
+        cell.textContent = shipPos;
+      } else if (type === "ship" && ~shipPresent) {
+        cell.textContent = cell.id;
+      }
     }
-
-    const gridClass = player.name + "-" + type;
-  }
-
-  // For strategy board, need clickable squares that
-  // display a hit/miss (they become disabled after clickd on)
-  // Re-render
-  if (type === "strategy") {
   }
 };
+
+// const gameLogic = (player, type) => {
+//   // Logic needed for determining grid type
+
+//   // For the ship board, show where ships are
+//   // and display hit/misses.
+//   // Re-render
+//   if (type === "ship") {
+//     // player.gameBoard.shipPositions[i].ocuppiedCoordinates
+
+//     let cell;
+
+//     for (let i = 0; i < shipPosCopy.length; i++) {
+//       for (let k = 0; k < shipPosCopy[i].ocuppiedCoordinates.length; k++) {
+//         cell = document.querySelector(
+//           `.${gridId} > #${shipPosCopy[i].ocuppiedCoordinates[k]}`
+//         );
+//         cell.value = shipPosCopy[i].ocuppiedCoordinates[k];
+//       }
+//     }
+//   }
+
+//   // For strategy board, need clickable squares that
+//   // display a hit/miss (they become disabled after clickd on)
+//   // Re-render
+//   if (type === "strategy") {
+//   }
+// };
 
 gameStart();

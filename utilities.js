@@ -15,6 +15,29 @@ const toAlphaNumeric = (array) => {
   return alphaNumericArray;
 };
 
+const shipCoorToAlphaNum = (shipPositions) => {
+  let pos = shipPositions;
+  let coor;
+
+  for (let i = 0; i < pos.length; i++) {
+    const alphaColumns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+    const numericRows = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+    let x;
+    let y;
+
+    for (let k = 0; k < pos[i].ocuppiedCoordinates.length; k++) {
+      // shipPositions[i].ocuppiedCoordinates[k]
+      coor =
+        alphaColumns[pos[i].ocuppiedCoordinates[k][0]] +
+        numericRows[pos[i].ocuppiedCoordinates[k][1]];
+      pos[i].ocuppiedCoordinates[k] = coor;
+    }
+  }
+
+  return pos;
+};
+
 const shipAbbreviation = (shipType) => {
   let abbr;
 
@@ -52,6 +75,9 @@ const shipAlphaNumToCoor = (alphaNum) => {
   return [x, y];
 };
 
-// const shipCoorToAlphaNum = () => {} ???
-
-export { toAlphaNumeric, shipAbbreviation, shipAlphaNumToCoor };
+export {
+  toAlphaNumeric,
+  shipAbbreviation,
+  shipAlphaNumToCoor,
+  shipCoorToAlphaNum,
+};
