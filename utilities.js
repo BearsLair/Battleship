@@ -43,19 +43,19 @@ const shipAbbreviation = (shipType) => {
 
   switch (shipType) {
     case "Carrier":
-      abbr = "Ca";
+      abbr = "Car";
       break;
     case "Battleship":
-      abbr = "Ba";
+      abbr = "Bat";
       break;
     case "Cruiser":
-      abbr = "Cr";
+      abbr = "Cru";
       break;
     case "Submarine":
-      abbr = "Su";
+      abbr = "Sub";
       break;
     case "Destroyer":
-      abbr = "De";
+      abbr = "Des";
       break;
   }
 
