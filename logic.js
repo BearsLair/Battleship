@@ -214,13 +214,26 @@ const displayGrid = (gridID, type, shipPositions, abbrCallback) => {
         // if statement here
         if (type === "ship" && shipPresent) {
           cell.textContent = shipPos;
+          Object.assign(cell.style, {
+            backgroundColor: "#999999",
+          });
         } else if (type === "ship" && ~shipPresent) {
           cell.textContent = cell.id;
+          Object.assign(cell.style, {
+            backgroundColor: "#008ae6",
+          });
           // TODO: Logic for hits/misses
         }
       } else if (type === "strategy") {
         cell.textContent = cell.id;
-        // TODO: Logic for hits/misses
+        Object.assign(cell.style, {
+          backgroundColor: "#008ae6",
+          cursor: "pointer",
+        });
+
+        cell.addEventListener("click", () => {
+          console.log(`You clicked cell ${cell.id} on the ${gridID} board.`);
+        });
       }
     }
   }
