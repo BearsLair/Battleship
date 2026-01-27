@@ -6,8 +6,8 @@ class Ship {
     this.ocuppiedCoordinates = [];
   }
 
-  hit(coor) {
-    this.hitPoints--;
+  hit() {
+    this.length--;
     if (this.length === 0) {
       this.isSunkFunc();
     }
