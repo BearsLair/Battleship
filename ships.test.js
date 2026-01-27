@@ -23,15 +23,6 @@ test("Each ship object has a sunk method", () => {
   );
 });
 
-test("Each ship should have an empty occupidedCoordinates array", () => {
-  const data = createFleet();
-  expect(data[0].ocuppiedCoordinates).toStrictEqual([]);
-  expect(data[1].ocuppiedCoordinates).toStrictEqual([]);
-  expect(data[2].ocuppiedCoordinates).toStrictEqual([]);
-  expect(data[3].ocuppiedCoordinates).toStrictEqual([]);
-  expect(data[4].ocuppiedCoordinates).toStrictEqual([]);
-});
-
 test("The fleet has a carrier, battleship, cruiser, submarine, and destroyer", () => {
   const data = createFleet();
   expect(data[0].type).toBe("Ca");
