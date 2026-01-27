@@ -17,7 +17,74 @@ class Gameboard {
     this.strategyBoard = [];
   }
 
-  addShips(placementsArray) {}
+  addShips(placementsArray) {
+    const alphaCol = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+    const numRow = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+    let list;
+    let letter;
+    let num;
+    let length;
+    let current;
+    let alphaIndex;
+    let numIndex;
+
+    for (let i = 0; i < 5; i++) {
+      list = [];
+      letter = placementsArray[i].start[0];
+      num = placementsArray[i].start.slice(1);
+      length = this.shipsList(placementsArray[i].type);
+
+      if (placementsArray[i].orientation === "hor") {
+        alphaIndex = alphaCol.indexOf(letter);
+
+        for (let k = 0; k < length; k++) {
+          current = alphaCol[alphaIndex] + num;
+          list.push(current);
+        }
+      } else if (placementsArray[i].orientation === "ver") {
+        numIndex = numRow.indexOf(num);
+
+        for (let k = 0; k < length; k++) {
+          current = letter + numRow[numIndex];
+          list.push(current);
+        }
+      }
+
+      console.log(list);
+
+      for (let m = 0; m < list.length; m++) {
+        for (let n = 0; n < this.shipsBoard.length; n++) {
+          if (this.shipsBoard[m].id === list(m)) {
+            this.shipsBoard[m].shipPresent = placementsArray[i].type;
+          }
+        }
+      }
+    }
+  }
+
+  shipsList(ship) {
+    let value;
+
+    switch (ship) {
+      case "Ca":
+        value = 5;
+        break;
+      case "Ba":
+        value = 4;
+        break;
+      case "Cr":
+        value = 3;
+        break;
+      case "Su":
+        value = 3;
+        break;
+      case "De":
+        value = 2;
+    }
+
+    return value;
+  }
 
   receiveAttack(attackCoordinate) {}
 
