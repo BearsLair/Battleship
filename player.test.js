@@ -1,46 +1,13 @@
 import Player from "./player";
-import createBoard from "./gameboard";
-import createFleet from "./ships";
 
-let playerOne;
-let playerTwo;
-
-beforeEach(() => {
-  const playerFleet = createFleet();
-
-  playerOne = new Player("Patrick", "human");
-  playerOne.gameBoard = createBoard();
-  playerOne.gameBoard.shipPositions = createFleet();
-
-  playerTwo = new Player("Computer", "CPU");
-  playerTwo.gameBoard = createBoard();
-  playerTwo.gameBoard.shipPositions = createFleet();
-
-  playerOne.gameBoard.addShips([
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  playerTwo.gameBoard.addShips([
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-});
-
-test("A player has a name and player is either human or the CPU", () => {
+test("A human player named Patrick can be created", () => {
+  const playerOne = new Player("Patrick", false);
   expect(playerOne.name).toBe("Patrick");
-  expect(playerOne.humanOrCPU).toBe("human");
+  expect(playerOne.isCPU).toBe(false);
 });
 
-test("Player 1 is a human opponent", () => {
-  expect(playerOne.humanOrCPU).toBe("human");
-});
-
-test("Player 2 is a CPU opponent", () => {
-  expect(playerTwo.humanOrCPU).toBe("CPU");
+test("The called CPU is controlled by the CPU, and is not human", () => {
+  const playerTwo = new Player("CPU", true);
+  expect(playerTwo.name).toBe("CPU");
+  expect(playerTwo.isCPU).toBe(true);
 });
