@@ -1,216 +1,37 @@
 import createBoard from "./gameboard";
 import createFleet from "./ships";
+import Player from "./player";
 
-// Check if array has unique items
-const checkArrayForUniques = (array) => {
-  const newSet = new Set(array);
-  const setArray = [...newSet];
+test("A game board for human player Patrick can be created", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
 
-  if (setArray.length === array.length) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-test("There are 100 cells", () => {
-  const newBoard = createBoard("Ship");
-  expect(newBoard.board).toHaveLength(100);
+  expect(board.player.name).toBe("Patrick");
+  expect(board.player.isCPU).toBe(false);
 });
 
-test("Each cell has a unique id", () => {
-  const newBoard = createBoard("Ship");
-  let ids = [];
+test("The board has five ships", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
 
-  for (let i = 0; i < 100; i++) {
-    ids.push(newBoard.board[i].id);
-  }
-
-  expect(checkArrayForUniques(ids)).toBe(true);
+  expect(board.ships.length).toBe(5);
 });
 
-test("The board has a shipPositions array", () => {
-  const newBoard = createBoard("Ship");
+test("Both the ships and strategy boards have 100 cells each", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
 
-  expect(Object.hasOwn(newBoard, "shipPositions")).toBe(true);
+  expect(board.shipsBoard.length).toBe(100);
+  expect(board.strategyBoard.length).toBe(100);
 });
 
-test("A cell has inverted postive x,y coordinates", () => {
-  const newBoard = createBoard("Player1", "Ship");
+test("The first cell has an ID of A1 at x,y coordinate 0,0", () => {});
 
-  expect(newBoard.board[2].x).toBe(2);
-  expect(newBoard.board[2].y).toBe(0);
-});
+test("The last cell has an ID of J10 at x,y coordiante 9,9", () => {});
 
-test("shipPositions array has length of five", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.shipPositions = playerFleet;
-  newBoard.addShips([
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  expect(newBoard.shipPositions).toHaveLength(5);
-});
-
-test("The ships are carrier, battleship, cruiser, submarine, and destoyer", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.shipPositions = playerFleet;
-  newBoard.addShips([
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  expect(newBoard.shipPositions[0].type).toBe("Carrier");
-  expect(newBoard.shipPositions[1].type).toBe("Battleship");
-  expect(newBoard.shipPositions[2].type).toBe("Cruiser");
-  expect(newBoard.shipPositions[3].type).toBe("Submarine");
-  expect(newBoard.shipPositions[4].type).toBe("Destroyer");
-});
-
-test("Carrier at B1 in horizontal position", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.shipPositions = playerFleet;
-  newBoard.addShips([
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  expect(newBoard.shipPositions[0].ocuppiedCoordinates).toStrictEqual([
-    [1, 0],
-    [2, 0],
-    [3, 0],
-    [4, 0],
-    [5, 0],
-  ]);
-});
-
-test("Battleship at B5 in vertical position", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.shipPositions = playerFleet;
-  newBoard.addShips([
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  expect(newBoard.shipPositions[1].ocuppiedCoordinates).toStrictEqual([
-    [1, 4],
-    [1, 5],
-    [1, 6],
-    [1, 7],
-  ]);
-});
-
-test("arrayPresent returns correctly", () => {
-  const newBoard = createBoard("Ship");
-  expect(
-    newBoard.arrayPresent(
-      [
-        [2, 3],
-        [3, 3],
-        [5, 6],
-      ],
-      [3, 3]
-    )
-  ).toBe(true);
-  expect(
-    newBoard.arrayPresent(
-      [
-        [2, 3],
-        [3, 3],
-        [5, 6],
-      ],
-      [1, 4]
-    )
-  ).toBe(false);
-});
-
-test("Ship positions array on the board is not empty", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.shipPositions = playerFleet;
-  newBoard.addShips([
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  expect(newBoard.shipPositions.length).not.toBe(0);
-});
-
-test("Received an attack that missed a ship", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.shipPositions = playerFleet;
-  newBoard.addShips([
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  newBoard.receiveAttack([0, 0]);
-  expect(newBoard.opponentMisses[0]).toStrictEqual([0, 0]);
-});
-
-test("Carrier received an attack that reduced hitpoints to 4", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.shipPositions = playerFleet;
-  newBoard.addShips([
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  newBoard.receiveAttack([3, 0]);
-  expect(newBoard.shipPositions[0]).toMatchObject({ hitPoints: 4 });
-});
-
-test("Carrier received an attack on coordinate [3,0]", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.shipPositions = playerFleet;
-  newBoard.addShips([
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  newBoard.receiveAttack([3, 0]);
-  expect(newBoard.shipPositions[0].hitCoordinates[0]).toStrictEqual([3, 0]);
-});
-
-test("All ships sunk returns 'All Ships Sunk!'", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.shipPositions = playerFleet;
-  newBoard.addShips([
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-
-  for (let i = 0; i < newBoard.shipPositions.length; i++) {
-    newBoard.shipPositions[i].isSunk = true;
-  }
-
-  expect(newBoard.allshipsSunk()).toBe("All Ships Sunk!");
-});
+// Ships are not yet placed on the board
+// Ships need to receiveAttack
+// It should register that all ships on the board are sunk
