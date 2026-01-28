@@ -17,6 +17,10 @@ class Gameboard {
     this.strategyBoard = [];
   }
 
+  // TODO: addShips MUST work for entire codebase to work.
+  // Ship types MUST go to the correct cell in shipsBoard array.
+  // Ship on cell MUST flip shipPresent flag from false to correct ship type
+  // Thorough testing needed before continuing.
   addShips(placementsArray) {
     const alphaCol = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
     const numRow = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
@@ -24,7 +28,7 @@ class Gameboard {
     let list;
     let letter;
     let num;
-    let length;
+    let shipLength;
     let current;
     let alphaIndex;
     let numIndex;
@@ -33,34 +37,40 @@ class Gameboard {
       list = [];
       letter = placementsArray[i].start[0];
       num = placementsArray[i].start.slice(1);
-      length = this.shipsList(placementsArray[i].type);
+
+      shipLength = this.shipsList(placementsArray[i].type);
 
       if (placementsArray[i].orientation === "hor") {
         alphaIndex = alphaCol.indexOf(letter);
 
-        for (let k = 0; k < length; k++) {
-          current = alphaCol[alphaIndex] + num;
+        for (let k = 0; k < shipLength; k++) {
+          current = alphaCol[alphaIndex + k] + num;
           list.push(current);
         }
       } else if (placementsArray[i].orientation === "ver") {
         numIndex = numRow.indexOf(num);
 
-        for (let k = 0; k < length; k++) {
-          current = letter + numRow[numIndex];
+        for (let k = 0; k < shipLength; k++) {
+          current = letter + numRow[numIndex + k];
           list.push(current);
         }
       }
 
-      console.log(list);
-
       for (let m = 0; m < list.length; m++) {
         for (let n = 0; n < this.shipsBoard.length; n++) {
-          if (this.shipsBoard[m].id === list(m)) {
+          if (this.shipsBoard[n].id === list[m]) {
             this.shipsBoard[m].shipPresent = placementsArray[i].type;
           }
         }
       }
     }
+
+    console.log("cell id at shipsBoard 1: ", this.shipsBoard[1].id);
+    console.log(
+      "shipsPresent at cell B1 should be 'Ca'",
+      this.shipsBoard[1].shipPresent
+    );
+    c;
   }
 
   shipsList(ship) {
@@ -111,7 +121,6 @@ const createBoard = (player, ships) => {
       cell = new Cell(alphaNum, x, y);
 
       newBoard.shipsBoard.push(cell);
-      newBoard.strategyBoard.push(cell);
     }
   }
 

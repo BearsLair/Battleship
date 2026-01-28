@@ -28,13 +28,12 @@ test("Carrier has a length of 5", () => {
   expect(board.ships[0].length).toBe(5);
 });
 
-test("Both the ships and strategy boards have 100 cells each", () => {
+test("The ships board has 100 cells", () => {
   const playerOne = new Player("Patrick", false);
   const newFleet = createFleet();
   const board = createBoard(playerOne, newFleet);
 
   expect(board.shipsBoard.length).toBe(100);
-  expect(board.strategyBoard.length).toBe(100);
 });
 
 test("The first cell on the ships board has an ID of A1 at x,y coordinate 0,0", () => {
