@@ -74,9 +74,6 @@ test("The cells from B1 to F1 are occupied by the Carrier", () => {
   expect(locations).toStrictEqual(["B1", "C1", "D1", "E1", "F1"]);
 });
 
-// TODO test: Ship can be hit
-// TODO test: Ship can be sunk
-
 test("The cells from B1 to F1 are occupied by the Carrier", () => {
   const playerOne = new Player("Patrick", false);
   const newFleet = createFleet();
@@ -197,5 +194,78 @@ test("The cells from J6 to J7  are occupied by the Destroyer", () => {
   expect(locations).toStrictEqual(["J6", "J7"]);
 });
 
-// // TODO: Ships need to receiveAttack
-// // TODO: It should register that all ships on the board are sunk
+// TODO test: shipsBoard need to receiveAttack() (hit/miss)
+test("The cell D1 occupied by the Carrier can be hit", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  let board = createBoard(playerOne, newFleet);
+
+  board.addShips([{ type: "Ca", start: "B1", orientation: "hor" }]);
+
+  board.receiveAttack("D1");
+
+  expect(board.shipsBoard[3].cellHitOrMiss).toBe("hit");
+  expect(board.ships[0].length).toBe(4);
+});
+
+// TODO test: Opponent can MISS on cell with no ship present
+test("The cell D1 occupied by the Carrier can be hit", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  let board = createBoard(playerOne, newFleet);
+
+  board.addShips([
+    { type: "Ca", start: "B1", orientation: "hor" },
+    { type: "Ba", start: "B4", orientation: "ver" },
+    { type: "Cr", start: "D9", orientation: "hor" },
+    { type: "Su", start: "F3", orientation: "ver" },
+    { type: "De", start: "J6", orientation: "ver" },
+  ]);
+
+  board.receiveAttack("J1");
+
+  expect(board.shipsBoard[9].cellHitOrMiss).toBe("miss");
+});
+
+// TODO test: A ship can be sunk
+test("All ships can be sunk", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  let board = createBoard(playerOne, newFleet);
+
+  board.addShips([
+    { type: "Ca", start: "B1", orientation: "hor" },
+    { type: "Ba", start: "B4", orientation: "ver" },
+    { type: "Cr", start: "D9", orientation: "hor" },
+    { type: "Su", start: "F3", orientation: "ver" },
+    { type: "De", start: "J6", orientation: "ver" },
+  ]);
+
+  board.receiveAttack("B1");
+  board.receiveAttack("C1");
+  board.receiveAttack("D1");
+  board.receiveAttack("E1");
+  board.receiveAttack("F1");
+
+  board.receiveAttack("B4");
+  board.receiveAttack("B5");
+  board.receiveAttack("B6");
+  board.receiveAttack("B7");
+
+  board.receiveAttack("D9");
+  board.receiveAttack("E9");
+  board.receiveAttack("F9");
+
+  board.receiveAttack("F3");
+  board.receiveAttack("F4");
+  board.receiveAttack("F5");
+
+  board.receiveAttack("J6");
+  board.receiveAttack("J7");
+
+  board.allshipsSunkFunc();
+
+  expect(board.allShipsSunk).toBe(true);
+});
+
+// TODO test: It should register that all ships on the board are sunk

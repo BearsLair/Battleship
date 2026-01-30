@@ -12,9 +12,7 @@ class Ship {
     }
   }
   isSunkFunc() {
-    if (this.hitPoints === 0) {
-      this.isSunk = true;
-    }
+    this.isSunk = true;
   }
 }
 

@@ -3,8 +3,9 @@ class Cell {
     this.id = id;
     this.x = x;
     this.y = y;
-    this.cellPicked = false;
-    // Ship type, else false:
+    // cellHitOrMiss false unless hit/miss is registered
+    this.cellHitOrMiss = false;
+    // Ship type, else false for no ship present:
     this.shipPresent = false;
   }
 }
@@ -15,6 +16,7 @@ class Gameboard {
     this.ships = ships;
     this.shipsBoard = [];
     this.strategyBoard = [];
+    this.allShipsSunk = false;
   }
 
   // TODO: addShips MUST work for entire codebase to work.
@@ -56,8 +58,6 @@ class Gameboard {
         }
       }
 
-      console.log("List: ", list);
-
       for (let m = 0; m < list.length; m++) {
         for (let n = 0; n < this.shipsBoard.length; n++) {
           if (this.shipsBoard[n].id === list[m]) {
@@ -91,9 +91,41 @@ class Gameboard {
     return value;
   }
 
-  receiveAttack(attackCoordinate) {}
+  // Assume D1, occupied by the carrier, is hit
+  // Assume J1, which is empty, is registered as a miss
+  receiveAttack(attackCoordinate) {
+    const index = this.shipsBoard.findIndex(
+      (cell) => cell.id === attackCoordinate,
+    );
 
-  allshipsSunk() {}
+    if (this.shipsBoard[index].shipPresent === false) {
+      this.shipsBoard[index].cellHitOrMiss = "miss";
+    } else if (this.shipsBoard[index].shipPresent !== false) {
+      this.shipsBoard[index].cellHitOrMiss = "hit";
+
+      const currentShipType = this.shipsBoard[index].shipPresent;
+
+      const shipIndex = this.ships.findIndex(
+        (ship) => ship.type === currentShipType,
+      );
+
+      this.ships[shipIndex].hit();
+    }
+  }
+
+  allshipsSunkFunc() {
+    let shipsSunkAmount = 0;
+
+    for (let i = 0; i < this.ships.length; i++) {
+      if (this.ships[i].isSunk === true) {
+        shipsSunkAmount++;
+      }
+    }
+
+    if (shipsSunkAmount === this.ships.length) {
+      this.allShipsSunk = true;
+    }
+  }
 }
 
 const createBoard = (player, ships) => {
