@@ -33,7 +33,7 @@ class Gameboard {
     let alphaIndex;
     let numIndex;
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < placementsArray.length; i++) {
       list = [];
       letter = placementsArray[i].start[0];
       num = placementsArray[i].start.slice(1);
@@ -56,21 +56,16 @@ class Gameboard {
         }
       }
 
+      console.log("List: ", list);
+
       for (let m = 0; m < list.length; m++) {
         for (let n = 0; n < this.shipsBoard.length; n++) {
           if (this.shipsBoard[n].id === list[m]) {
-            this.shipsBoard[m].shipPresent = placementsArray[i].type;
+            this.shipsBoard[n].shipPresent = placementsArray[i].type;
           }
         }
       }
     }
-
-    console.log("cell id at shipsBoard 1: ", this.shipsBoard[1].id);
-    console.log(
-      "shipsPresent at cell B1 should be 'Ca'",
-      this.shipsBoard[1].shipPresent
-    );
-    c;
   }
 
   shipsList(ship) {

@@ -61,6 +61,27 @@ test("The cells from B1 to F1 are occupied by the Carrier", () => {
   const newFleet = createFleet();
   const board = createBoard(playerOne, newFleet);
 
+  board.addShips([{ type: "Ca", start: "B1", orientation: "hor" }]);
+
+  let locations = [];
+
+  for (let i = 0; i < 100; i++) {
+    if (board.shipsBoard[i].shipPresent === "Ca") {
+      locations.push(board.shipsBoard[i].id);
+    }
+  }
+
+  expect(locations).toStrictEqual(["B1", "C1", "D1", "E1", "F1"]);
+});
+
+// TODO test: Ship can be hit
+// TODO test: Ship can be sunk
+
+test("The cells from B1 to F1 are occupied by the Carrier", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
+
   board.addShips([
     { type: "Ca", start: "B1", orientation: "hor" },
     { type: "Ba", start: "B4", orientation: "ver" },
@@ -72,7 +93,7 @@ test("The cells from B1 to F1 are occupied by the Carrier", () => {
   let locations = [];
 
   for (let i = 0; i < 100; i++) {
-    if (board.shipsBoard[i].type === "Ca") {
+    if (board.shipsBoard[i].shipPresent === "Ca") {
       locations.push(board.shipsBoard[i].id);
     }
   }
@@ -96,7 +117,7 @@ test("The cells from B4 to B7 are occupied by the Battleship", () => {
   let locations = [];
 
   for (let i = 0; i < 100; i++) {
-    if (board.shipsBoard[i].type === "Ba") {
+    if (board.shipsBoard[i].shipPresent === "Ba") {
       locations.push(board.shipsBoard[i].id);
     }
   }
@@ -120,7 +141,7 @@ test("The cells from D9 to F9  are occupied by the Cruiser", () => {
   let locations = [];
 
   for (let i = 0; i < 100; i++) {
-    if (board.shipsBoard[i].type === "Cr") {
+    if (board.shipsBoard[i].shipPresent === "Cr") {
       locations.push(board.shipsBoard[i].id);
     }
   }
@@ -144,7 +165,7 @@ test("The cells from F3 to F5  are occupied by the Submarine", () => {
   let locations = [];
 
   for (let i = 0; i < 100; i++) {
-    if (board.shipsBoard[i].type === "Su") {
+    if (board.shipsBoard[i].shipPresent === "Su") {
       locations.push(board.shipsBoard[i].id);
     }
   }
@@ -168,7 +189,7 @@ test("The cells from J6 to J7  are occupied by the Destroyer", () => {
   let locations = [];
 
   for (let i = 0; i < 100; i++) {
-    if (board.shipsBoard[i].type === "De") {
+    if (board.shipsBoard[i].shipPresent === "De") {
       locations.push(board.shipsBoard[i].id);
     }
   }
@@ -176,6 +197,5 @@ test("The cells from J6 to J7  are occupied by the Destroyer", () => {
   expect(locations).toStrictEqual(["J6", "J7"]);
 });
 
-// TODO: Ships are not yet placed on the board
-// TODO: Ships need to receiveAttack
-// TODO: It should register that all ships on the board are sunk
+// // TODO: Ships need to receiveAttack
+// // TODO: It should register that all ships on the board are sunk
