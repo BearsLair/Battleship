@@ -3,8 +3,9 @@ import createFleet from "./ships.js";
 import Player from "./player.js";
 
 // For Testing //
-const playerOne = new Player("Patrick", false);
 const newFleet = createFleet();
+
+const playerOne = new Player("Patrick", false);
 const playerOneBoard = createBoard(playerOne, newFleet);
 
 playerOneBoard.addShips([
@@ -14,6 +15,22 @@ playerOneBoard.addShips([
   { type: "Su", start: "F3", orientation: "ver" },
   { type: "De", start: "J6", orientation: "ver" },
 ]);
+
+const playerTwo = new Player("CPU", true);
+const playerTwoBoard = createBoard(playerTwo, newFleet);
+
+playerTwoBoard.addShips([
+  { type: "Ca", start: "A1", orientation: "ver" },
+  { type: "Ba", start: "A8", orientation: "hor" },
+  { type: "Cr", start: "D4", orientation: "hor" },
+  { type: "Su", start: "G6", orientation: "hor" },
+  { type: "De", start: "J1", orientation: "ver" },
+]);
+
+// Copy the opponent's ships board to player's strategy board
+// The ships on the strategy board won't be displayed
+playerOneBoard.strategyBoard = playerTwoBoard.shipsBoard;
+playerTwoBoard.strategyBoard = playerOneBoard.shipsBoard;
 /////////////////
 
 // GameFlow governed by click events on the squares on both players' strategy boards
@@ -44,7 +61,7 @@ const displayGameBoard = (playerBoard) => {
   body.appendChild(gameBoard);
 
   displayGrid(playerOneBoard, "ships");
-  // displayGrid(playerOneBoard, "strategy");
+  displayGrid(playerOneBoard, "strategy");
 };
 
 const displayGrid = (playerBoard, gridType) => {
@@ -99,6 +116,52 @@ const displayGrid = (playerBoard, gridType) => {
         } else {
           cell.textContent = cell.id;
         }
+
+        index++;
+      }
+    }
+  }
+
+  if (gridType === "strategy") {
+    for (let i = 0; i < 10; i++) {
+      for (let k = 0; k < 10; k++) {
+        const cell = document.createElement("div");
+        grid.appendChild(cell);
+        Object.assign(cell.style, {
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: 0,
+          padding: 0,
+          border: "1px solid black",
+          backgroundColor: "#2342db",
+          height: "50px",
+          width: "50px",
+        });
+
+        cell.id = alphaCol[k] + numRow[i];
+
+        cell.textContent = cell.id;
+
+        cell.addEventListener("click", () => {
+          if (playerBoard.strategyBoard[index].shipPresent !== false) {
+            if (playerBoard.name === playerOneBoard.name) {
+              playerOneBoard.strategyBoard[index].cellHitOrMiss = "hit";
+              console.log(
+                "hit registered on player one strategy board: ",
+                playerOneBoard.strategyBoard[index].cellHitOrMiss,
+              );
+              playerTwoBoard.shipsBoard[index].cellHitOrMiss = "hit";
+              console.log(
+                "hit registered on player two ships board",
+                playerTwoBoard.shipsBoard[index].cellHitOrMiss,
+              );
+            } else if (playerBoard.name === playerTwoBoard.name) {
+              playerTwoBoard.strategyBoard[index].cellHitOrMiss = "hit";
+              playerOneBoard.shipsBoard[index].cellHitOrMiss = "hit";
+            }
+          }
+        });
 
         index++;
       }
