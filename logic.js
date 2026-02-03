@@ -74,6 +74,8 @@ const displayGrid = (playerBoard, gridType) => {
   const alphaCol = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   const numRow = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 
+  let index = 0;
+
   if (gridType === "ships") {
     for (let i = 0; i < 10; i++) {
       for (let k = 0; k < 10; k++) {
@@ -91,7 +93,14 @@ const displayGrid = (playerBoard, gridType) => {
           width: "50px",
         });
         cell.id = alphaCol[k] + numRow[i];
-        cell.textContent = cell.id;
+
+        if (playerBoard.shipsBoard[index].shipPresent !== false) {
+          cell.textContent = playerBoard.shipsBoard[index].shipPresent;
+        } else {
+          cell.textContent = cell.id;
+        }
+
+        index++;
       }
     }
   }
