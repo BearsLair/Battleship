@@ -1,207 +1,271 @@
 import createBoard from "./gameboard";
 import createFleet from "./ships";
+import Player from "./player";
 
-// Check if array has unique items
-const checkArrayForUniques = (array) => {
-  const newSet = new Set(array);
-  const setArray = [...newSet];
+test("A game board for human player Patrick can be created", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
 
-  if (setArray.length === array.length) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-test("There are 100 cells", () => {
-  const newBoard = createBoard("Ship");
-  expect(newBoard.board).toHaveLength(100);
+  expect(board.player.name).toBe("Patrick");
+  expect(board.player.isCPU).toBe(false);
 });
 
-test("Each cell has a unique id", () => {
-  const newBoard = createBoard("Ship");
-  let ids = [];
+test("The board has five ships", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
+
+  expect(board.ships.length).toBe(5);
+});
+
+test("Carrier has a length of 5", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
+
+  expect(board.ships[0].type).toBe("Ca");
+  expect(board.ships[0].length).toBe(5);
+});
+
+test("The ships board has 100 cells", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
+
+  expect(board.shipsBoard.length).toBe(100);
+});
+
+test("The first cell on the ships board has an ID of A1 at x,y coordinate 0,0", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
+
+  expect(board.shipsBoard[0].id).toBe("A1");
+  expect(board.shipsBoard[0].x).toBe(0);
+  expect(board.shipsBoard[0].y).toBe(0);
+});
+
+test("The last cell on the ships board has an ID of J10 at x,y coordiante 9,9", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
+
+  expect(board.shipsBoard[99].id).toBe("J10");
+  expect(board.shipsBoard[99].x).toBe(9);
+  expect(board.shipsBoard[99].y).toBe(9);
+});
+
+test("The cells from B1 to F1 are occupied by the Carrier", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
+
+  board.addShips([{ type: "Ca", start: "B1", orientation: "hor" }]);
+
+  let locations = [];
 
   for (let i = 0; i < 100; i++) {
-    ids.push(newBoard.board[i].id);
+    if (board.shipsBoard[i].shipPresent === "Ca") {
+      locations.push(board.shipsBoard[i].id);
+    }
   }
 
-  expect(checkArrayForUniques(ids)).toBe(true);
+  expect(locations).toStrictEqual(["B1", "C1", "D1", "E1", "F1"]);
 });
 
-test("The board has a shipPositions array", () => {
-  const newBoard = createBoard("Ship");
+test("The cells from B1 to F1 are occupied by the Carrier", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
 
-  expect(Object.hasOwn(newBoard, "shipPositions")).toBe(true);
-});
-
-test("A cell has inverted postive x,y coordinates", () => {
-  const newBoard = createBoard("Player1", "Ship");
-
-  expect(newBoard.board[2].x).toBe(2);
-  expect(newBoard.board[2].y).toBe(0);
-});
-
-test("shipPositions array has length of five", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  expect(newBoard.shipPositions).toHaveLength(5);
-});
-
-test("The ships are carrier, battleship, cruiser, submarine, and destoyer", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  expect(newBoard.shipPositions[0].type).toBe("Carrier");
-  expect(newBoard.shipPositions[1].type).toBe("Battleship");
-  expect(newBoard.shipPositions[2].type).toBe("Cruiser");
-  expect(newBoard.shipPositions[3].type).toBe("Submarine");
-  expect(newBoard.shipPositions[4].type).toBe("Destroyer");
-});
-
-test("Carrier at B1 in horizontal position", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  expect(newBoard.shipPositions[0].ocuppiedCoordinates).toStrictEqual([
-    [1, 0],
-    [2, 0],
-    [3, 0],
-    [4, 0],
-    [5, 0],
-  ]);
-});
-
-test("Battleship at B5 in vertical position", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  expect(newBoard.shipPositions[1].ocuppiedCoordinates).toStrictEqual([
-    [1, 4],
-    [1, 5],
-    [1, 6],
-    [1, 7],
-  ]);
-});
-
-test("arrayPresent returns correctly", () => {
-  const newBoard = createBoard("Ship");
-  expect(
-    newBoard.arrayPresent(
-      [
-        [2, 3],
-        [3, 3],
-        [5, 6],
-      ],
-      [3, 3]
-    )
-  ).toBe(true);
-  expect(
-    newBoard.arrayPresent(
-      [
-        [2, 3],
-        [3, 3],
-        [5, 6],
-      ],
-      [1, 4]
-    )
-  ).toBe(false);
-});
-
-test("Ship positions array on the board is not empty", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  expect(newBoard.shipPositions.length).not.toBe(0);
-});
-
-test("Received an attack that missed a ship", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  newBoard.receiveAttack([0, 0]);
-  expect(newBoard.missedAttacks[0]).toStrictEqual([0, 0]);
-});
-
-test("Carrier received an attack that reduced hitpoints to 4", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  newBoard.receiveAttack([3, 0]);
-  expect(newBoard.shipPositions[0]).toMatchObject({ hitPoints: 4 });
-});
-
-test("Carrier received an attack on coordinate [3,0]", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
-  ]);
-  newBoard.receiveAttack([3, 0]);
-  expect(newBoard.shipPositions[0].hitCoordinates[0]).toStrictEqual([3, 0]);
-});
-
-test("All ships sunk returns 'All Ships Sunk!'", () => {
-  const newBoard = createBoard("Ship");
-  const playerFleet = createFleet();
-  newBoard.addShips(playerFleet, [
-    ["Carrier", "B1", "horizontal"],
-    ["Battleship", "B5", "vertical"],
-    ["Cruiser", "D7", "horizontal"],
-    ["Submarine", "I2", "vertical"],
-    ["Destroyer", "G5", "horizontal"],
+  board.addShips([
+    { type: "Ca", start: "B1", orientation: "hor" },
+    { type: "Ba", start: "B4", orientation: "ver" },
+    { type: "Cr", start: "D9", orientation: "hor" },
+    { type: "Su", start: "F3", orientation: "ver" },
+    { type: "De", start: "J6", orientation: "ver" },
   ]);
 
-  for (let i = 0; i < newBoard.shipPositions.length; i++) {
-    newBoard.shipPositions[i].isSunk = true;
+  let locations = [];
+
+  for (let i = 0; i < 100; i++) {
+    if (board.shipsBoard[i].shipPresent === "Ca") {
+      locations.push(board.shipsBoard[i].id);
+    }
   }
 
-  expect(newBoard.allshipsSunk()).toBe("All Ships Sunk!");
+  expect(locations).toStrictEqual(["B1", "C1", "D1", "E1", "F1"]);
 });
+
+test("The cells from B4 to B7 are occupied by the Battleship", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
+
+  board.addShips([
+    { type: "Ca", start: "B1", orientation: "hor" },
+    { type: "Ba", start: "B4", orientation: "ver" },
+    { type: "Cr", start: "D9", orientation: "hor" },
+    { type: "Su", start: "F3", orientation: "ver" },
+    { type: "De", start: "J6", orientation: "ver" },
+  ]);
+
+  let locations = [];
+
+  for (let i = 0; i < 100; i++) {
+    if (board.shipsBoard[i].shipPresent === "Ba") {
+      locations.push(board.shipsBoard[i].id);
+    }
+  }
+
+  expect(locations).toStrictEqual(["B4", "B5", "B6", "B7"]);
+});
+
+test("The cells from D9 to F9  are occupied by the Cruiser", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
+
+  board.addShips([
+    { type: "Ca", start: "B1", orientation: "hor" },
+    { type: "Ba", start: "B4", orientation: "ver" },
+    { type: "Cr", start: "D9", orientation: "hor" },
+    { type: "Su", start: "F3", orientation: "ver" },
+    { type: "De", start: "J6", orientation: "ver" },
+  ]);
+
+  let locations = [];
+
+  for (let i = 0; i < 100; i++) {
+    if (board.shipsBoard[i].shipPresent === "Cr") {
+      locations.push(board.shipsBoard[i].id);
+    }
+  }
+
+  expect(locations).toStrictEqual(["D9", "E9", "F9"]);
+});
+
+test("The cells from F3 to F5  are occupied by the Submarine", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
+
+  board.addShips([
+    { type: "Ca", start: "B1", orientation: "hor" },
+    { type: "Ba", start: "B4", orientation: "ver" },
+    { type: "Cr", start: "D9", orientation: "hor" },
+    { type: "Su", start: "F3", orientation: "ver" },
+    { type: "De", start: "J6", orientation: "ver" },
+  ]);
+
+  let locations = [];
+
+  for (let i = 0; i < 100; i++) {
+    if (board.shipsBoard[i].shipPresent === "Su") {
+      locations.push(board.shipsBoard[i].id);
+    }
+  }
+
+  expect(locations).toStrictEqual(["F3", "F4", "F5"]);
+});
+
+test("The cells from J6 to J7  are occupied by the Destroyer", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  const board = createBoard(playerOne, newFleet);
+
+  board.addShips([
+    { type: "Ca", start: "B1", orientation: "hor" },
+    { type: "Ba", start: "B4", orientation: "ver" },
+    { type: "Cr", start: "D9", orientation: "hor" },
+    { type: "Su", start: "F3", orientation: "ver" },
+    { type: "De", start: "J6", orientation: "ver" },
+  ]);
+
+  let locations = [];
+
+  for (let i = 0; i < 100; i++) {
+    if (board.shipsBoard[i].shipPresent === "De") {
+      locations.push(board.shipsBoard[i].id);
+    }
+  }
+
+  expect(locations).toStrictEqual(["J6", "J7"]);
+});
+
+// TODO test: shipsBoard need to receiveAttack() (hit/miss)
+test("The cell D1 occupied by the Carrier can be hit", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  let board = createBoard(playerOne, newFleet);
+
+  board.addShips([{ type: "Ca", start: "B1", orientation: "hor" }]);
+
+  board.receiveAttack("D1");
+
+  expect(board.shipsBoard[3].cellHitOrMiss).toBe("hit");
+  expect(board.ships[0].length).toBe(4);
+});
+
+// TODO test: Opponent can MISS on cell with no ship present
+test("The cell D1 occupied by the Carrier can be hit", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  let board = createBoard(playerOne, newFleet);
+
+  board.addShips([
+    { type: "Ca", start: "B1", orientation: "hor" },
+    { type: "Ba", start: "B4", orientation: "ver" },
+    { type: "Cr", start: "D9", orientation: "hor" },
+    { type: "Su", start: "F3", orientation: "ver" },
+    { type: "De", start: "J6", orientation: "ver" },
+  ]);
+
+  board.receiveAttack("J1");
+
+  expect(board.shipsBoard[9].cellHitOrMiss).toBe("miss");
+});
+
+// TODO test: A ship can be sunk
+test("All ships can be sunk", () => {
+  const playerOne = new Player("Patrick", false);
+  const newFleet = createFleet();
+  let board = createBoard(playerOne, newFleet);
+
+  board.addShips([
+    { type: "Ca", start: "B1", orientation: "hor" },
+    { type: "Ba", start: "B4", orientation: "ver" },
+    { type: "Cr", start: "D9", orientation: "hor" },
+    { type: "Su", start: "F3", orientation: "ver" },
+    { type: "De", start: "J6", orientation: "ver" },
+  ]);
+
+  board.receiveAttack("B1");
+  board.receiveAttack("C1");
+  board.receiveAttack("D1");
+  board.receiveAttack("E1");
+  board.receiveAttack("F1");
+
+  board.receiveAttack("B4");
+  board.receiveAttack("B5");
+  board.receiveAttack("B6");
+  board.receiveAttack("B7");
+
+  board.receiveAttack("D9");
+  board.receiveAttack("E9");
+  board.receiveAttack("F9");
+
+  board.receiveAttack("F3");
+  board.receiveAttack("F4");
+  board.receiveAttack("F5");
+
+  board.receiveAttack("J6");
+  board.receiveAttack("J7");
+
+  board.allshipsSunkFunc();
+
+  expect(board.allShipsSunk).toBe(true);
+});
+
+// TODO test: It should register that all ships on the board are sunk

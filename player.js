@@ -1,8 +1,7 @@
 class Player {
-  constructor(name, humanOrCPU) {
+  constructor(name, isCPU) {
     this.name = name;
-    this.humanOrCPU = humanOrCPU;
-    this.gameBoard = {};
+    this.isCPU = isCPU;
   }
 }
 

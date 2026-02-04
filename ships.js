@@ -2,34 +2,32 @@ class Ship {
   constructor(type, length) {
     this.type = type;
     this.length = length;
-    this.hitPoints = length;
     this.isSunk = false;
-    this.ocuppiedCoordinates = [];
-    this.hitCoordinates = [];
   }
 
-  hit(coor) {
-    this.hitPoints--;
-    this.hitCoordinates.push(coor);
-
-    if (this.hitPoints === 0) {
+  hit() {
+    this.length--;
+    if (this.length === 0) {
       this.isSunkFunc();
     }
   }
   isSunkFunc() {
-    if (this.hitPoints === 0) {
-      this.isSunk = true;
-    }
+    this.isSunk = true;
   }
 }
 
 const createFleet = () => {
   const shipTypes = [
-    ["Carrier", 5],
-    ["Battleship", 4],
-    ["Cruiser", 3],
-    ["Submarine", 3],
-    ["Destroyer", 2],
+    // Carrier
+    ["Ca", 5],
+    // Battleship
+    ["Ba", 4],
+    // Cruiser
+    ["Cr", 3],
+    // Submarine
+    ["Su", 3],
+    // Destroyer
+    ["De", 2],
   ];
 
   let currentShip;
