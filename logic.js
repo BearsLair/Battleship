@@ -105,7 +105,7 @@ const displayGrid = (playerBoard, gridType) => {
           margin: 0,
           padding: 0,
           border: "1px solid black",
-          backgroundColor: "#2342db",
+          backgroundColor: "#4c78d7ff",
           height: "50px",
           width: "50px",
         });
@@ -122,6 +122,8 @@ const displayGrid = (playerBoard, gridType) => {
     }
   }
 
+  let currIndex = 0;
+
   if (gridType === "strategy") {
     for (let i = 0; i < 10; i++) {
       for (let k = 0; k < 10; k++) {
@@ -134,9 +136,10 @@ const displayGrid = (playerBoard, gridType) => {
           margin: 0,
           padding: 0,
           border: "1px solid black",
-          backgroundColor: "#2342db",
+          backgroundColor: "#4c78d7ff",
           height: "50px",
           width: "50px",
+          cursor: "pointer",
         });
 
         cell.id = alphaCol[k] + numRow[i];
@@ -144,26 +147,50 @@ const displayGrid = (playerBoard, gridType) => {
         cell.textContent = cell.id;
 
         cell.addEventListener("click", () => {
-          if (playerBoard.strategyBoard[index].shipPresent !== false) {
+          const currIndex = Number(`${i}${k}`);
+          console.log(currIndex);
+          if (playerBoard.strategyBoard[currIndex].shipPresent !== false) {
             if (playerBoard.name === playerOneBoard.name) {
-              playerOneBoard.strategyBoard[index].cellHitOrMiss = "hit";
+              playerOneBoard.strategyBoard[currIndex].cellHitOrMiss = "hit";
+              console.log(
+                `Opponent's ${playerOneBoard.strategyBoard[currIndex].shipPresent} was hit!`,
+              );
               console.log(
                 "hit registered on player one strategy board: ",
-                playerOneBoard.strategyBoard[index].cellHitOrMiss,
+                playerOneBoard.strategyBoard[currIndex].cellHitOrMiss,
               );
-              playerTwoBoard.shipsBoard[index].cellHitOrMiss = "hit";
+              playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss = "hit";
               console.log(
                 "hit registered on player two ships board",
-                playerTwoBoard.shipsBoard[index].cellHitOrMiss,
+                playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss,
               );
             } else if (playerBoard.name === playerTwoBoard.name) {
-              playerTwoBoard.strategyBoard[index].cellHitOrMiss = "hit";
-              playerOneBoard.shipsBoard[index].cellHitOrMiss = "hit";
+              playerTwoBoard.strategyBoard[currIndex].cellHitOrMiss = "hit";
+              playerOneBoard.shipsBoard[currIndex].cellHitOrMiss = "hit";
+            }
+          } else if (
+            playerBoard.strategyBoard[currIndex].shipPresent === false
+          ) {
+            if (playerBoard.name === playerOneBoard.name) {
+              playerOneBoard.strategyBoard[currIndex].cellHitOrMiss = "miss";
+              console.log(
+                `Opponent's ship present? ${playerOneBoard.strategyBoard[currIndex].shipPresent}...MISS!!!`,
+              );
+              console.log(
+                "Miss registered on player one strategy board: ",
+                playerOneBoard.strategyBoard[currIndex].cellHitOrMiss,
+              );
+              playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss = "miss";
+              console.log(
+                "Miss registered on player two ships board",
+                playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss,
+              );
+            } else if (playerBoard.name === playerTwoBoard.name) {
+              playerTwoBoard.strategyBoard[currIndex].cellHitOrMiss = "miss";
+              playerOneBoard.shipsBoard[currIndex].cellHitOrMiss = "miss";
             }
           }
         });
-
-        index++;
       }
     }
   }
