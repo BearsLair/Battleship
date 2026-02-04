@@ -35,7 +35,7 @@ playerTwoBoard.strategyBoard = playerOneBoard.shipsBoard;
 
 // GameFlow governed by click events on the squares on both players' strategy boards
 // No click events needed on the ships boards
-const displayGameBoard = (playerBoard) => {
+const displayGameBoard = () => {
   const body = document.body;
   body.replaceChildren();
 
@@ -121,9 +121,25 @@ const displayGrid = (playerBoard, gridType) => {
         });
         cell.id = alphaCol[k] + numRow[i];
 
-        if (playerBoard.shipsBoard[index].shipPresent !== false) {
+        if (
+          playerBoard.shipsBoard[index].shipPresent !== false &&
+          playerBoard.shipsBoard[index].cellHitOrMiss === false
+        ) {
           cell.textContent = playerBoard.shipsBoard[index].shipPresent;
-        } else {
+        } else if (
+          playerBoard.shipsBoard[index].shipPresent !== false &&
+          playerBoard.shipsBoard[index].cellHitOrMiss === "hit"
+        ) {
+          cell.textContent = "💥";
+        } else if (
+          playerBoard.shipsBoard[index].shipPresent === false &&
+          playerBoard.shipsBoard[index].cellHitOrMiss === "miss"
+        ) {
+          cell.textContent = "🌊";
+        } else if (
+          playerBoard.shipsBoard[index].shipPresent === false &&
+          playerBoard.shipsBoard[index].cellHitOrMiss === false
+        ) {
           cell.textContent = cell.id;
         }
 
@@ -156,33 +172,45 @@ const displayGrid = (playerBoard, gridType) => {
 
         cell.textContent = cell.id;
 
+        // TODO: Make cell unclickable after it is chosen
+
         cell.addEventListener("click", () => {
           const currIndex = Number(`${i}${k}`);
           if (playerBoard.strategyBoard[currIndex].shipPresent !== false) {
-            if (playerBoard.name === playerOneBoard.name) {
+            if (playerBoard.player.name === playerOneBoard.player.name) {
               playerOneBoard.strategyBoard[currIndex].cellHitOrMiss = "hit";
-
               playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss = "hit";
-            } else if (playerBoard.name === playerTwoBoard.name) {
+            } else if (playerBoard.player.name === playerTwoBoard.player.name) {
               playerTwoBoard.strategyBoard[currIndex].cellHitOrMiss = "hit";
               playerOneBoard.shipsBoard[currIndex].cellHitOrMiss = "hit";
             }
           } else if (
             playerBoard.strategyBoard[currIndex].shipPresent === false
           ) {
-            if (playerBoard.name === playerOneBoard.name) {
+            if (playerBoard.player.name === playerOneBoard.player.name) {
               playerOneBoard.strategyBoard[currIndex].cellHitOrMiss = "miss";
 
               playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss = "miss";
-            } else if (playerBoard.name === playerTwoBoard.name) {
+            } else if (playerBoard.player.name === playerTwoBoard.player.name) {
               playerTwoBoard.strategyBoard[currIndex].cellHitOrMiss = "miss";
               playerOneBoard.shipsBoard[currIndex].cellHitOrMiss = "miss";
             }
           }
+          reRender();
         });
       }
     }
   }
 };
 
-displayGameBoard(playerOneBoard);
+const reRender = () => {
+  const gameBoard = document.querySelector(".gameBoard");
+  gameBoard.replaceChildren();
+
+  displayGrid(playerOneBoard, "ships");
+  displayGrid(playerOneBoard, "strategy");
+  displayGrid(playerTwoBoard, "ships");
+  displayGrid(playerTwoBoard, "strategy");
+};
+
+displayGameBoard();
