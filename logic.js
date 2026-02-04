@@ -62,10 +62,20 @@ const displayGameBoard = (playerBoard) => {
 
   displayGrid(playerOneBoard, "ships");
   displayGrid(playerOneBoard, "strategy");
+  displayGrid(playerTwoBoard, "ships");
+  displayGrid(playerTwoBoard, "strategy");
 };
 
 const displayGrid = (playerBoard, gridType) => {
   const gridDiv = document.createElement("div");
+  Object.assign(gridDiv.style, {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+  });
+  const title = document.createElement("h3");
+  gridDiv.appendChild(title);
+  title.textContent = `${playerBoard.player.name}'s ${gridType} board`;
   const gameBoard = document.querySelector(".gameBoard");
   gameBoard.appendChild(gridDiv);
 
