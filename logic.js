@@ -148,22 +148,11 @@ const displayGrid = (playerBoard, gridType) => {
 
         cell.addEventListener("click", () => {
           const currIndex = Number(`${i}${k}`);
-          console.log(currIndex);
           if (playerBoard.strategyBoard[currIndex].shipPresent !== false) {
             if (playerBoard.name === playerOneBoard.name) {
               playerOneBoard.strategyBoard[currIndex].cellHitOrMiss = "hit";
-              console.log(
-                `Opponent's ${playerOneBoard.strategyBoard[currIndex].shipPresent} was hit!`,
-              );
-              console.log(
-                "hit registered on player one strategy board: ",
-                playerOneBoard.strategyBoard[currIndex].cellHitOrMiss,
-              );
+
               playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss = "hit";
-              console.log(
-                "hit registered on player two ships board",
-                playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss,
-              );
             } else if (playerBoard.name === playerTwoBoard.name) {
               playerTwoBoard.strategyBoard[currIndex].cellHitOrMiss = "hit";
               playerOneBoard.shipsBoard[currIndex].cellHitOrMiss = "hit";
@@ -173,18 +162,8 @@ const displayGrid = (playerBoard, gridType) => {
           ) {
             if (playerBoard.name === playerOneBoard.name) {
               playerOneBoard.strategyBoard[currIndex].cellHitOrMiss = "miss";
-              console.log(
-                `Opponent's ship present? ${playerOneBoard.strategyBoard[currIndex].shipPresent}...MISS!!!`,
-              );
-              console.log(
-                "Miss registered on player one strategy board: ",
-                playerOneBoard.strategyBoard[currIndex].cellHitOrMiss,
-              );
+
               playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss = "miss";
-              console.log(
-                "Miss registered on player two ships board",
-                playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss,
-              );
             } else if (playerBoard.name === playerTwoBoard.name) {
               playerTwoBoard.strategyBoard[currIndex].cellHitOrMiss = "miss";
               playerOneBoard.shipsBoard[currIndex].cellHitOrMiss = "miss";
