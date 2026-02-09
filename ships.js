@@ -18,21 +18,22 @@ class Ship {
 
 const createFleet = () => {
   const shipTypes = [
-    // Carrier
+    // Carrier, length 5
     ["Ca", 5],
-    // Battleship
+    // Battleship, length 4
     ["Ba", 4],
-    // Cruiser
+    // Cruiser, length 3
     ["Cr", 3],
-    // Submarine
+    // Submarine, length 3
     ["Su", 3],
-    // Destroyer
+    // Destroyer, length 2
     ["De", 2],
   ];
 
   let currentShip;
   let fleet = [];
 
+  // Create array of all five Ship classes to be tracked by gameboard
   for (let i = 0; i < shipTypes.length; i++) {
     currentShip = new Ship(shipTypes[i][0], shipTypes[i][1]);
     fleet.push(currentShip);
