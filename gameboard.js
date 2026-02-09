@@ -5,7 +5,7 @@ class Cell {
     this.y = y;
     // cellHitOrMiss false unless hit/miss is registered
     this.cellHitOrMiss = false;
-    // Ship type, else false for no ship present:
+    // Ship type, false if no ship present on cell:
     this.shipPresent = false;
   }
 }
@@ -14,15 +14,12 @@ class Gameboard {
   constructor(player, ships) {
     this.player = player;
     this.ships = ships;
+    // All 100 cells on shipsBoard, including those with ships present displayed to player
     this.shipsBoard = [];
+    // Copy of opponent's shipsBoard - ship positions not displayed to the player
     this.strategyBoard = [];
-    this.allShipsSunk = false;
   }
 
-  // TODO: addShips MUST work for entire codebase to work.
-  // Ship types MUST go to the correct cell in shipsBoard array.
-  // Ship on cell MUST flip shipPresent flag from false to correct ship type
-  // Thorough testing needed before continuing.
   addShips(placementsArray) {
     const alphaCol = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
     const numRow = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
