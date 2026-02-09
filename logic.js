@@ -3,10 +3,9 @@ import createFleet from "./ships.js";
 import Player from "./player.js";
 
 // For Testing //
-const newFleet = createFleet();
-
+const playerOneFleet = createFleet();
 const playerOne = new Player("Patrick", false);
-const playerOneBoard = createBoard(playerOne, newFleet);
+const playerOneBoard = createBoard(playerOne, playerOneFleet);
 
 playerOneBoard.addShips([
   { type: "Ca", start: "B1", orientation: "hor" },
@@ -16,8 +15,9 @@ playerOneBoard.addShips([
   { type: "De", start: "J6", orientation: "ver" },
 ]);
 
+const playerTwoFleet = createFleet();
 const playerTwo = new Player("CPU", true);
-const playerTwoBoard = createBoard(playerTwo, newFleet);
+const playerTwoBoard = createBoard(playerTwo, playerTwoFleet);
 
 playerTwoBoard.addShips([
   { type: "Ca", start: "A1", orientation: "ver" },
@@ -29,8 +29,8 @@ playerTwoBoard.addShips([
 
 // Copy the opponent's ships board to player's strategy board
 // The ships on the strategy board won't be displayed
-playerOneBoard.strategyBoard = playerTwoBoard.shipsBoard;
-playerTwoBoard.strategyBoard = playerOneBoard.shipsBoard;
+playerOneBoard.strategyBoard = [...playerTwoBoard.shipsBoard];
+playerTwoBoard.strategyBoard = [...playerOneBoard.shipsBoard];
 /////////////////
 
 // GameFlow governed by click events on the squares on both players' strategy boards
@@ -64,6 +64,22 @@ const displayGameBoard = () => {
   displayGrid(playerOneBoard, "strategy");
   displayGrid(playerTwoBoard, "ships");
   displayGrid(playerTwoBoard, "strategy");
+};
+
+const allShipsSunkChecker = (shipsBoardToEval) => {
+  let counter = 0;
+
+  for (let z = 0; z < 5; z++) {
+    if (shipsBoardToEval.ships[z].isSunk === true) {
+      counter++;
+    }
+  }
+
+  if (counter === 5) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 const displayGrid = (playerBoard, gridType) => {
@@ -172,32 +188,89 @@ const displayGrid = (playerBoard, gridType) => {
 
         cell.textContent = cell.id;
 
-        // TODO: Make cell unclickable after it is chosen
+        const currIndex = Number(`${i}${k}`);
 
-        cell.addEventListener("click", () => {
-          const currIndex = Number(`${i}${k}`);
-          if (playerBoard.strategyBoard[currIndex].shipPresent !== false) {
-            if (playerBoard.player.name === playerOneBoard.player.name) {
-              playerOneBoard.strategyBoard[currIndex].cellHitOrMiss = "hit";
-              playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss = "hit";
-            } else if (playerBoard.player.name === playerTwoBoard.player.name) {
-              playerTwoBoard.strategyBoard[currIndex].cellHitOrMiss = "hit";
-              playerOneBoard.shipsBoard[currIndex].cellHitOrMiss = "hit";
-            }
-          } else if (
-            playerBoard.strategyBoard[currIndex].shipPresent === false
-          ) {
-            if (playerBoard.player.name === playerOneBoard.player.name) {
-              playerOneBoard.strategyBoard[currIndex].cellHitOrMiss = "miss";
+        if (playerBoard.strategyBoard[currIndex].cellHitOrMiss === false) {
+          cell.addEventListener("click", () => {
+            if (playerBoard.strategyBoard[currIndex].shipPresent !== false) {
+              if (playerBoard.player.name === playerOneBoard.player.name) {
+                playerOneBoard.strategyBoard[currIndex].cellHitOrMiss = "hit";
+                playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss = "hit";
+                //////////////
+                const playerTwoShipHit =
+                  playerTwoBoard.shipsBoard[currIndex].shipPresent;
 
-              playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss = "miss";
-            } else if (playerBoard.player.name === playerTwoBoard.player.name) {
-              playerTwoBoard.strategyBoard[currIndex].cellHitOrMiss = "miss";
-              playerOneBoard.shipsBoard[currIndex].cellHitOrMiss = "miss";
+                for (let t = 0; t < 5; t++) {
+                  if (playerTwoBoard.ships[t].type === playerTwoShipHit) {
+                    playerTwoBoard.ships[t].hit();
+
+                    console.log(
+                      `Player Two's ${playerTwoShipHit} has ${playerTwoBoard.ships[t].length} hit points left!`,
+                    );
+                    if (playerTwoBoard.ships[t].isSunk === true) {
+                      console.log(`${playerTwoShipHit} sunk!`);
+                    }
+
+                    if (allShipsSunkChecker(playerTwoBoard)) {
+                      console.log(
+                        `All of ${playerTwoBoard.player.name}'s ships are SUNK!`,
+                      );
+                    }
+
+                    break;
+                  }
+                }
+
+                /////////////
+              } else if (
+                playerBoard.player.name === playerTwoBoard.player.name
+              ) {
+                playerTwoBoard.strategyBoard[currIndex].cellHitOrMiss = "hit";
+                playerOneBoard.shipsBoard[currIndex].cellHitOrMiss = "hit";
+
+                //////////////
+                const playerOneShipHit =
+                  playerOneBoard.shipsBoard[currIndex].shipPresent;
+
+                for (let u = 0; u < 5; u++) {
+                  if (playerOneBoard.ships[u].type === playerOneShipHit) {
+                    playerOneBoard.ships[u].hit();
+                    console.log(
+                      `Player One's ${playerOneShipHit} has ${playerOneBoard.ships[u].length} hit points left!`,
+                    );
+                    if (playerOneBoard.ships[u].isSunk === true) {
+                      console.log(`${playerOneShipHit} sunk!`);
+                    }
+
+                    if (allShipsSunkChecker(playerOneBoard)) {
+                      console.log(
+                        `All of ${playerOneBoard.player.name}'s ships are SUNK!`,
+                      );
+                    }
+
+                    break;
+                  }
+                }
+
+                /////////////
+              }
+            } else if (
+              playerBoard.strategyBoard[currIndex].shipPresent === false
+            ) {
+              if (playerBoard.player.name === playerOneBoard.player.name) {
+                playerOneBoard.strategyBoard[currIndex].cellHitOrMiss = "miss";
+
+                playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss = "miss";
+              } else if (
+                playerBoard.player.name === playerTwoBoard.player.name
+              ) {
+                playerTwoBoard.strategyBoard[currIndex].cellHitOrMiss = "miss";
+                playerOneBoard.shipsBoard[currIndex].cellHitOrMiss = "miss";
+              }
             }
-          }
-          reRender();
-        });
+            reRender();
+          });
+        }
       }
     }
   }

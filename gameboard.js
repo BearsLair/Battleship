@@ -16,7 +16,6 @@ class Gameboard {
     this.ships = ships;
     this.shipsBoard = [];
     this.strategyBoard = [];
-    this.allShipsSunk = false;
   }
 
   // TODO: addShips MUST work for entire codebase to work.
