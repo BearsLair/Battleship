@@ -270,6 +270,15 @@ const displayGrid = (playerBoard, gridType) => {
             }
             reRender();
           });
+        } else if (
+          playerBoard.strategyBoard[currIndex].cellHitOrMiss !== false
+        ) {
+          if (playerBoard.strategyBoard[currIndex].cellHitOrMiss === "hit") {
+            cell.textContent = "💥";
+          }
+          if (playerBoard.strategyBoard[currIndex].cellHitOrMiss === "miss") {
+            cell.textContent = "🌊";
+          }
         }
       }
     }
