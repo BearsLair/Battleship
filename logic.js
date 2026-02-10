@@ -221,6 +221,12 @@ const displayGrid = (playerBoard, gridType) => {
                   }
                 }
 
+                if (playerTwoBoard.player.isCPU === true) {
+                  setTimeout(() => {
+                    cpuOpponentLogic();
+                  }, 3000);
+                }
+
                 /////////////
               } else if (
                 playerBoard.player.name === playerTwoBoard.player.name
@@ -261,6 +267,12 @@ const displayGrid = (playerBoard, gridType) => {
                 playerOneBoard.strategyBoard[currIndex].cellHitOrMiss = "miss";
 
                 playerTwoBoard.shipsBoard[currIndex].cellHitOrMiss = "miss";
+
+                if (playerTwoBoard.player.isCPU === true) {
+                  setTimeout(() => {
+                    cpuOpponentLogic();
+                  }, 3000);
+                }
               } else if (
                 playerBoard.player.name === playerTwoBoard.player.name
               ) {
@@ -293,6 +305,60 @@ const reRender = () => {
   displayGrid(playerOneBoard, "strategy");
   displayGrid(playerTwoBoard, "ships");
   displayGrid(playerTwoBoard, "strategy");
+};
+
+let cpuIndexLog = [];
+
+const cpuOpponentLogic = () => {
+  if (cpuIndexLog.length === 0) {
+    for (let i = 0; i < 100; i++) {
+      cpuIndexLog.push(i);
+    }
+  }
+
+  const indexLogLength = cpuIndexLog.length;
+
+  const cpuChoice = Math.floor(Math.random() * (indexLogLength - 1) + 1);
+  const boardIndex = cpuIndexLog[cpuChoice];
+  cpuIndexLog.splice(cpuChoice, 1);
+
+  console.log("cpu chooses", playerTwoBoard.strategyBoard[boardIndex].id);
+
+  if (playerTwoBoard.strategyBoard[boardIndex].shipPresent !== false) {
+    playerTwoBoard.strategyBoard[boardIndex].cellHitOrMiss = "hit";
+    playerOneBoard.shipsBoard[boardIndex].cellHitOrMiss = "hit";
+
+    //////////////
+    const playerOneShipHit = playerOneBoard.shipsBoard[boardIndex].shipPresent;
+
+    for (let u = 0; u < 5; u++) {
+      if (playerOneBoard.ships[u].type === playerOneShipHit) {
+        playerOneBoard.ships[u].hit();
+        console.log(
+          `CPU hit Player One's ${playerOneShipHit}, it now has ${playerOneBoard.ships[u].length} hit points left!`,
+        );
+        if (playerOneBoard.ships[u].isSunk === true) {
+          console.log(`CPU sunk Player One's ${playerOneShipHit}`);
+        }
+
+        if (allShipsSunkChecker(playerOneBoard)) {
+          console.log(
+            `All of ${playerOneBoard.player.name}'s ships are SUNK by CPU!`,
+          );
+        }
+
+        break;
+      }
+    }
+
+    /////////////
+  } else if (playerTwoBoard.strategyBoard[boardIndex].shipPresent === false) {
+    console.log("CPU missed!");
+    playerTwoBoard.strategyBoard[boardIndex].cellHitOrMiss = "miss";
+    playerOneBoard.shipsBoard[boardIndex].cellHitOrMiss = "miss";
+  }
+
+  reRender();
 };
 
 displayGameBoard();
