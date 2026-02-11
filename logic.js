@@ -2,6 +2,56 @@ import createBoard from "./gameboard.js";
 import createFleet from "./ships.js";
 import Player from "./player.js";
 
+const shipPlacement = (playerShipsBoard) => {
+  const body = document.body;
+
+  const gridAndShipsDiv = document.createElement("div");
+  body.appendChild(gridAndShipsDiv);
+  Object.assign(gridAndShipsDiv.style, {
+    display: "grid",
+    gridTemplateRows: "1fr 1fr 1fr",
+    gridTemplateColumns: "1fr 1fr 1fr",
+    height: "100vh",
+    width: "100%",
+  });
+  gridAndShipsDiv.classList.add("gridAndShipsDiv");
+
+  const titleAndNameDiv = document.createElement("div");
+  gridAndShipsDiv.appendChild(titleAndNameDiv);
+  Object.assign(titleAndNameDiv.style, {
+    display: "flex",
+    flexDirection: "column",
+    gridArea: "1/1/2/4",
+    justifyContent: "space-apart",
+    alignItems: "center",
+    width: "100%",
+  });
+  titleAndNameDiv.classList.add("titleAndNameDiv");
+
+  const title = document.createElement("h2");
+  titleAndNameDiv.appendChild(title);
+  title.textContent = "Battleship!";
+  title.classList.add("title");
+
+  const nameDiv = document.createElement("div");
+  titleAndNameDiv.appendChild(nameDiv);
+  Object.assign(nameDiv.style, {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "space-apart",
+    width: "50%",
+  });
+  nameDiv.classList.add("nameDiv");
+
+  const input = document.createElement("input");
+  const nameLabel = document.createElement("p");
+  nameLabel.textContent = "Your name:";
+  nameDiv.appendChild(nameLabel);
+  nameDiv.appendChild(input);
+  input.id = "nameInput";
+};
+
 // For Testing //
 const playerOneFleet = createFleet();
 const playerOne = new Player("Patrick", false);
@@ -361,4 +411,5 @@ const cpuOpponentLogic = () => {
   reRender();
 };
 
-displayGameBoard();
+// displayGameBoard();
+shipPlacement();
