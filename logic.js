@@ -2,6 +2,8 @@ import createBoard from "./gameboard.js";
 import createFleet from "./ships.js";
 import Player from "./player.js";
 
+let cellSelection;
+
 const shipPlacement = (playerShipsBoard) => {
   const body = document.body;
 
@@ -50,6 +52,70 @@ const shipPlacement = (playerShipsBoard) => {
   nameDiv.appendChild(nameLabel);
   nameDiv.appendChild(input);
   input.id = "nameInput";
+
+  const shipGridDiv = document.createElement("div");
+  gridAndShipsDiv.appendChild(shipGridDiv);
+  shipGridDiv.classList.add("shipGridDiv");
+  Object.assign(shipGridDiv.style, {
+    display: "flex",
+    gridArea: "2/1/3/3",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 0,
+    padding: "2rem",
+  });
+
+  const grid = document.createElement("div");
+  Object.assign(grid.style, {
+    display: "grid",
+    gridTemplateColumns: "repeat(10, 50px)",
+    gridTemplateRows: "repeat(10, 50px)",
+  });
+
+  shipGridDiv.appendChild(grid);
+  grid.classList.add("playerShipsGrid");
+
+  const alphaCol = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  const numRow = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+  for (let i = 0; i < 10; i++) {
+    for (let k = 0; k < 10; k++) {
+      const cell = document.createElement("div");
+      grid.appendChild(cell);
+      Object.assign(cell.style, {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 0,
+        padding: 0,
+        border: "1px solid black",
+        backgroundColor: "#4c78d7ff",
+        height: "50px",
+        width: "50px",
+        cursor: "pointer",
+      });
+      cell.id = alphaCol[k] + numRow[i];
+
+      cell.textContent = cell.id;
+
+      cell.addEventListener("click", () => {
+        cellSelection = cell.id;
+        console.log(cellSelection);
+      });
+    }
+  }
+
+  const shipsSelectionDiv = document.createElement(div);
+  shipsSelectionDiv.classList.add("shipsSelectionDiv");
+  gridAndShipsDiv.appendChild(shipsSelectionDiv);
+  Object.assign(shipsSelectionDiv.style, {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gridArea: "2/3/3/4",
+    margin: 0,
+    padding: "2rem",
+  });
 };
 
 // For Testing //
