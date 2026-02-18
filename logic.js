@@ -347,6 +347,88 @@ const shipPlacement = (playerShipsBoard) => {
   destroyerVertical.name = "destroyerOrientation";
   destroyerVertical.value = "ver";
   //
+
+  const submitButton = document.createElement("button");
+  shipsSelectionDiv.appendChild(submitButton);
+  submitButton.textContent = "Submit Ships";
+  Object.assign(submitButton.style, {
+    marginTop: "1rem",
+    padding: "0.5rem",
+    width: "50%",
+    cursor: "pointer",
+  });
+
+  submitButton.addEventListener("click", () => {
+    console.log("submit button clicked");
+    // We will need to create a new player object (playerOne) for the player with the name inputted and assign them a fleet of ships (playerOneFleet) and a ship board (playerOneBoard)
+    // Here we will need to gather the input data and use it to place the ships on the player's ship board
+    let playerShips = [
+      {
+        type: "Ca",
+        start: carrierPosition.value,
+        orientation: carrierHorizontal.checked ? "hor" : "ver",
+      },
+      {
+        type: "Ba",
+        start: battleshipPosition.value,
+        orientation: battleshipHorizontal.checked ? "hor" : "ver",
+      },
+      {
+        type: "Cr",
+        start: cruiserPosition.value,
+        orientation: cruiserHorizontal.checked ? "hor" : "ver",
+      },
+      {
+        type: "Su",
+        start: subPosition.value,
+        orientation: subHorizontal.checked ? "hor" : "ver",
+      },
+      {
+        type: "De",
+        start: destroyerPosition.value,
+        orientation: destroyerHorizontal.checked ? "hor" : "ver",
+      },
+    ];
+
+    // We will need to validate the input data to ensure that the ship placements are valid (e.g., not overlapping, within the bounds of the board, etc.)
+    const alphaCol = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+    const numRow = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+    for (let i = 0; i < playerShips.length; i++) {
+      const ship = playerShips[i];
+      const startCol = ship.start[0];
+      const startRow = ship.start.slice(1);
+      const shipLength =
+        ship.type === "Ca"
+          ? 5
+          : ship.type === "Ba"
+            ? 4
+            : ship.type === "Cr"
+              ? 3
+              : ship.type === "Su"
+                ? 3
+                : 2;
+
+      if (
+        !alphaCol.includes(startCol) ||
+        !numRow.includes(startRow) ||
+        (ship.orientation === "hor" &&
+          alphaCol.indexOf(startCol) + shipLength > alphaCol.length) ||
+        (ship.orientation === "ver" &&
+          numRow.indexOf(startRow) + shipLength > numRow.length)
+      ) {
+        alert(
+          `Invalid placement for ${ship.type}. Please ensure the starting position is valid and the ship fits within the board.`,
+        );
+        return;
+      }
+
+      console.log(playerShips);
+      // Then we will need to re-render the game board with the placed ships for preview by the player before proceeding to the game phase
+      // We will also need to implement a way for the player to confirm their ship placements before proceeding to the game phase
+      // After that, we can proceed to the game phase where the player can click on the strategy board to attack the opponent's ships
+    }
+  });
 };
 
 // For Testing //
