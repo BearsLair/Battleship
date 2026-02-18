@@ -105,17 +105,248 @@ const shipPlacement = (playerShipsBoard) => {
     }
   }
 
-  const shipsSelectionDiv = document.createElement(div);
+  const shipsSelectionDiv = document.createElement("div");
   shipsSelectionDiv.classList.add("shipsSelectionDiv");
   gridAndShipsDiv.appendChild(shipsSelectionDiv);
   Object.assign(shipsSelectionDiv.style, {
     display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     gridArea: "2/3/3/4",
     margin: 0,
     padding: "2rem",
   });
+
+  // Carrier
+  const carrierDiv = document.createElement("div");
+  shipsSelectionDiv.appendChild(carrierDiv);
+  carrierDiv.classList.add("carrierDiv");
+  Object.assign(carrierDiv.style, {
+    border: "1px solid black",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-apart",
+    alignItems: "center",
+    padding: "1rem",
+  });
+
+  const carrierLabel = document.createElement("h3");
+  carrierDiv.appendChild(carrierLabel);
+  carrierLabel.textContent = "Carrier";
+
+  const carrierPosition = document.createElement("input");
+  carrierDiv.appendChild(carrierPosition);
+  carrierPosition.type = "text";
+  carrierPosition.id = "Ca";
+  Object.assign(carrierPosition.style, {
+    width: "2rem",
+  });
+
+  const carrierHorLabel = document.createElement("p");
+  carrierDiv.appendChild(carrierHorLabel);
+  carrierHorLabel.textContent = "Horizontal";
+
+  const carrierHorizontal = document.createElement("input");
+  carrierDiv.appendChild(carrierHorizontal);
+  carrierHorizontal.type = "radio";
+  carrierHorizontal.name = "carrierOrientation";
+  carrierHorizontal.value = "hor";
+
+  const carrierVerLabel = document.createElement("p");
+  carrierDiv.appendChild(carrierVerLabel);
+  carrierVerLabel.textContent = "Vertical";
+
+  const carrierVertical = document.createElement("input");
+  carrierDiv.appendChild(carrierVertical);
+  carrierVertical.type = "radio";
+  carrierVertical.name = "carrierOrientation";
+  carrierVertical.value = "ver";
+  //
+
+  // battleship
+  const battleshipDiv = document.createElement("div");
+  shipsSelectionDiv.appendChild(battleshipDiv);
+  battleshipDiv.classList.add("battleshipDiv");
+  Object.assign(battleshipDiv.style, {
+    border: "1px solid black",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-apart",
+    alignItems: "center",
+    padding: "1rem",
+  });
+
+  const battleshipLabel = document.createElement("h3");
+  battleshipDiv.appendChild(battleshipLabel);
+  battleshipLabel.textContent = "Battleship";
+
+  const battleshipPosition = document.createElement("input");
+  battleshipDiv.appendChild(battleshipPosition);
+  battleshipPosition.type = "text";
+  battleshipPosition.id = "Ca";
+  Object.assign(battleshipPosition.style, {
+    width: "2rem",
+  });
+
+  const battleshipHorLabel = document.createElement("p");
+  battleshipDiv.appendChild(battleshipHorLabel);
+  battleshipHorLabel.textContent = "Horizontal";
+
+  const battleshipHorizontal = document.createElement("input");
+  battleshipDiv.appendChild(battleshipHorizontal);
+  battleshipHorizontal.type = "radio";
+  battleshipHorizontal.name = "battleshipOrientation";
+  battleshipHorizontal.value = "hor";
+
+  const battleshipVerLabel = document.createElement("p");
+  battleshipDiv.appendChild(battleshipVerLabel);
+  battleshipVerLabel.textContent = "Vertical";
+
+  const battleshipVertical = document.createElement("input");
+  battleshipDiv.appendChild(battleshipVertical);
+  battleshipVertical.type = "radio";
+  battleshipVertical.name = "battleshipOrientation";
+  battleshipVertical.value = "ver";
+  //
+
+  // Cruiser
+  const cruiserDiv = document.createElement("div");
+  shipsSelectionDiv.appendChild(cruiserDiv);
+  cruiserDiv.classList.add("cruiserrDiv");
+  Object.assign(cruiserDiv.style, {
+    border: "1px solid black",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-apart",
+    alignItems: "center",
+    padding: "1rem",
+  });
+
+  const cruiserLabel = document.createElement("h3");
+  cruiserDiv.appendChild(cruiserLabel);
+  cruiserLabel.textContent = "Cruiser";
+
+  const cruiserPosition = document.createElement("input");
+  cruiserDiv.appendChild(cruiserPosition);
+  cruiserPosition.type = "text";
+  cruiserPosition.id = "Ca";
+  Object.assign(cruiserPosition.style, {
+    width: "2rem",
+  });
+
+  const cruiserHorLabel = document.createElement("p");
+  cruiserDiv.appendChild(cruiserHorLabel);
+  cruiserHorLabel.textContent = "Horizontal";
+
+  const cruiserHorizontal = document.createElement("input");
+  cruiserDiv.appendChild(cruiserHorizontal);
+  cruiserHorizontal.type = "radio";
+  cruiserHorizontal.name = "cruiserOrientation";
+  cruiserHorizontal.value = "hor";
+
+  const cruiserVerLabel = document.createElement("p");
+  cruiserDiv.appendChild(cruiserVerLabel);
+  cruiserVerLabel.textContent = "Vertical";
+
+  const cruiserVertical = document.createElement("input");
+  cruiserDiv.appendChild(cruiserVertical);
+  cruiserVertical.type = "radio";
+  cruiserVertical.name = "cruiserOrientation";
+  cruiserVertical.value = "ver";
+  //
+
+  // Submarine
+  const subDiv = document.createElement("div");
+  shipsSelectionDiv.appendChild(subDiv);
+  subDiv.classList.add("subDiv");
+  Object.assign(subDiv.style, {
+    border: "1px solid black",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-apart",
+    alignItems: "center",
+    padding: "1rem",
+  });
+
+  const subLabel = document.createElement("h3");
+  subDiv.appendChild(subLabel);
+  subLabel.textContent = "Submarine";
+
+  const subPosition = document.createElement("input");
+  subDiv.appendChild(subPosition);
+  subPosition.type = "text";
+  subPosition.id = "Ca";
+  Object.assign(subPosition.style, {
+    width: "2rem",
+  });
+
+  const subHorLabel = document.createElement("p");
+  subDiv.appendChild(subHorLabel);
+  subHorLabel.textContent = "Horizontal";
+
+  const subHorizontal = document.createElement("input");
+  subDiv.appendChild(subHorizontal);
+  subHorizontal.type = "radio";
+  subHorizontal.name = "subOrientation";
+  subHorizontal.value = "hor";
+
+  const subVerLabel = document.createElement("p");
+  subDiv.appendChild(subVerLabel);
+  subVerLabel.textContent = "Vertical";
+
+  const subVertical = document.createElement("input");
+  subDiv.appendChild(subVertical);
+  subVertical.type = "radio";
+  subVertical.name = "subOrientation";
+  subVertical.value = "ver";
+  //
+
+  // Destroyer
+  const destroyerDiv = document.createElement("div");
+  shipsSelectionDiv.appendChild(destroyerDiv);
+  destroyerDiv.classList.add("destroyerDiv");
+  Object.assign(destroyerDiv.style, {
+    border: "1px solid black",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-apart",
+    alignItems: "center",
+    padding: "1rem",
+  });
+
+  const destroyerLabel = document.createElement("h3");
+  destroyerDiv.appendChild(destroyerLabel);
+  destroyerLabel.textContent = "Destroyer";
+
+  const destroyerPosition = document.createElement("input");
+  destroyerDiv.appendChild(destroyerPosition);
+  destroyerPosition.type = "text";
+  destroyerPosition.id = "Ca";
+  Object.assign(destroyerPosition.style, {
+    width: "2rem",
+  });
+
+  const destroyerHorLabel = document.createElement("p");
+  destroyerDiv.appendChild(destroyerHorLabel);
+  destroyerHorLabel.textContent = "Horizontal";
+
+  const destroyerHorizontal = document.createElement("input");
+  destroyerDiv.appendChild(destroyerHorizontal);
+  destroyerHorizontal.type = "radio";
+  destroyerHorizontal.name = "destroyerOrientation";
+  destroyerHorizontal.value = "hor";
+
+  const destroyerVerLabel = document.createElement("p");
+  destroyerDiv.appendChild(destroyerVerLabel);
+  destroyerVerLabel.textContent = "Vertical";
+
+  const destroyerVertical = document.createElement("input");
+  destroyerDiv.appendChild(destroyerVertical);
+  destroyerVertical.type = "radio";
+  destroyerVertical.name = "destroyerOrientation";
+  destroyerVertical.value = "ver";
+  //
 };
 
 // For Testing //
