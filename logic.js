@@ -124,7 +124,7 @@ const shipPlacement = (playerShipsBoard) => {
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "space-apart",
+    alignItems: "center",
     width: "50%",
   });
   nameDiv.classList.add("nameDiv");
@@ -132,8 +132,14 @@ const shipPlacement = (playerShipsBoard) => {
   const input = document.createElement("input");
   const nameLabel = document.createElement("p");
   nameLabel.textContent = "Your name:";
+  Object.assign(nameLabel.style, {
+    marginRight: "0.5rem",
+  });
   nameDiv.appendChild(nameLabel);
   nameDiv.appendChild(input);
+  Object.assign(input.style, {
+    height: "1.5rem",
+  });
   input.id = "nameInput";
 
   const shipGridDiv = document.createElement("div");
@@ -209,9 +215,11 @@ const shipPlacement = (playerShipsBoard) => {
     border: "1px solid black",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-apart",
+    justifyContent: "space-between",
     alignItems: "center",
-    padding: "1rem",
+    width: "21rem",
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
   });
 
   const carrierLabel = document.createElement("h3");
@@ -255,9 +263,11 @@ const shipPlacement = (playerShipsBoard) => {
     border: "1px solid black",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-apart",
+    justifyContent: "space-between",
     alignItems: "center",
-    padding: "1rem",
+    width: "21rem",
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
   });
 
   const battleshipLabel = document.createElement("h3");
@@ -301,9 +311,11 @@ const shipPlacement = (playerShipsBoard) => {
     border: "1px solid black",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-apart",
+    justifyContent: "space-between",
     alignItems: "center",
-    padding: "1rem",
+    width: "21rem",
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
   });
 
   const cruiserLabel = document.createElement("h3");
@@ -347,9 +359,11 @@ const shipPlacement = (playerShipsBoard) => {
     border: "1px solid black",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-apart",
+    justifyContent: "space-between",
     alignItems: "center",
-    padding: "1rem",
+    width: "21rem",
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
   });
 
   const subLabel = document.createElement("h3");
@@ -393,9 +407,11 @@ const shipPlacement = (playerShipsBoard) => {
     border: "1px solid black",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-apart",
+    justifyContent: "space-between",
     alignItems: "center",
-    padding: "1rem",
+    width: "21rem",
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
   });
 
   const destroyerLabel = document.createElement("h3");
