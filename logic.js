@@ -2,6 +2,89 @@ import createBoard from "./gameboard.js";
 import createFleet from "./ships.js";
 import Player from "./player.js";
 
+// CPU ship placement: generates valid, non-overlapping placements for all CPU ships
+function CPUShipPlacement() {
+  const alphaCol = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  const numRow = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  const shipTypes = [
+    { type: "Ca", length: 5 },
+    { type: "Ba", length: 4 },
+    { type: "Cr", length: 3 },
+    { type: "Su", length: 3 },
+    { type: "De", length: 2 },
+  ];
+
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  function generatePlacements() {
+    const placements = [];
+    const occupied = new Set();
+
+    for (let i = 0; i < shipTypes.length; i++) {
+      const { type, length } = shipTypes[i];
+      let placed = false;
+      let tries = 0;
+      while (!placed && tries < 100) {
+        tries++;
+        const orientation = Math.random() < 0.5 ? "hor" : "ver";
+        let x, y;
+        if (orientation === "hor") {
+          x = getRandomInt(11 - length); // ensure ship fits horizontally
+          y = getRandomInt(10);
+        } else {
+          x = getRandomInt(10);
+          y = getRandomInt(11 - length); // ensure ship fits vertically
+        }
+        const start = alphaCol[x] + numRow[y];
+        // Build all cells this ship would occupy
+        let cells = [];
+        for (let k = 0; k < length; k++) {
+          let cellId;
+          if (orientation === "hor") {
+            cellId = alphaCol[x + k] + numRow[y];
+          } else {
+            cellId = alphaCol[x] + numRow[y + k];
+          }
+          cells.push(cellId);
+        }
+        // Check for overlap
+        if (cells.some((cell) => occupied.has(cell))) {
+          continue;
+        }
+        // Mark cells as occupied
+        cells.forEach((cell) => occupied.add(cell));
+        placements.push({ start, orientation, type });
+        placed = true;
+      }
+      if (!placed) {
+        // If failed to place after 100 tries, abort and signal to retry all
+        return null;
+      }
+    }
+
+    console.log("CPU Placements: ", placements);
+    return placements;
+  }
+
+  // Keep generating until a valid, non-overlapping set is found
+  let placements = null;
+  while (!placements) {
+    placements = generatePlacements();
+  }
+  return placements;
+}
+
+// Player One will be the user, Player Two will be the CPU opponent
+let playerOneFleet;
+let playerOne;
+let playerOneBoard;
+
+let playerTwoFleet;
+let playerTwo;
+let playerTwoBoard;
+
 let cellSelection;
 
 const shipPlacement = (playerShipsBoard) => {
@@ -423,44 +506,47 @@ const shipPlacement = (playerShipsBoard) => {
         return;
       }
 
+      if (checkShipOverlap(playerShips)) {
+        alert(
+          `Invalid placement. Ships cannot overlap. Please adjust the positions.`,
+        );
+        return;
+      }
+
       console.log(playerShips);
-      // Then we will need to re-render the game board with the placed ships for preview by the player before proceeding to the game phase
-      // We will also need to implement a way for the player to confirm their ship placements before proceeding to the game phase
-      // After that, we can proceed to the game phase where the player can click on the strategy board to attack the opponent's ships
+      // We will also need to implement a way for the player to confirm their ship placements before proceeding to the game phase using a modal box with a confirm button. If the player confirms their placements, we can then create the player object and assign them their fleet and ship board with the placed ships. If the player does not confirm their placements, they can go back and adjust their ship placements as needed.
+      const confirmPlacement = confirm(
+        `Please confirm your ship placements:\nCarrier: ${ship.type === "Ca" ? ship.start + " " + ship.orientation : "N/A"}\nBattleship: ${ship.type === "Ba" ? ship.start + " " + ship.orientation : "N/A"}\nCruiser: ${ship.type === "Cr" ? ship.start + " " + ship.orientation : "N/A"}\nSubmarine: ${ship.type === "Su" ? ship.start + " " + ship.orientation : "N/A"}\nDestroyer: ${ship.type === "De" ? ship.start + " " + ship.orientation : "N/A"}`,
+      );
+
+      if (!confirmPlacement) {
+        return;
+      } else {
+        playerOneFleet = createFleet();
+        playerOne = new Player(input.value, false);
+        playerOneBoard = createBoard(playerOne, playerOneFleet);
+
+        playerOneBoard.addShips(playerShips);
+
+        // CPU opponent places ships randomly
+        playerTwoFleet = createFleet();
+        playerTwo = new Player("CPU", true);
+        playerTwoBoard = createBoard(playerTwo, playerTwoFleet);
+
+        playerTwoBoard.addShips(CPUShipPlacement());
+
+        // Copy the opponent's ships board to player's strategy board
+        // The ships on the strategy board won't be displayed
+        playerOneBoard.strategyBoard = [...playerTwoBoard.shipsBoard];
+        playerTwoBoard.strategyBoard = [...playerOneBoard.shipsBoard];
+        /////////////////
+
+        // After that, we can proceed to the game phase where the player can click on the strategy board to attack the opponent's ships
+        displayGameBoard();
+      }
     }
   });
 };
-
-// For Testing //
-const playerOneFleet = createFleet();
-const playerOne = new Player("Patrick", false);
-const playerOneBoard = createBoard(playerOne, playerOneFleet);
-
-playerOneBoard.addShips([
-  { type: "Ca", start: "B1", orientation: "hor" },
-  { type: "Ba", start: "B4", orientation: "ver" },
-  { type: "Cr", start: "D9", orientation: "hor" },
-  { type: "Su", start: "F3", orientation: "ver" },
-  { type: "De", start: "J6", orientation: "ver" },
-]);
-
-const playerTwoFleet = createFleet();
-const playerTwo = new Player("CPU", true);
-const playerTwoBoard = createBoard(playerTwo, playerTwoFleet);
-
-playerTwoBoard.addShips([
-  { type: "Ca", start: "A1", orientation: "ver" },
-  { type: "Ba", start: "A8", orientation: "hor" },
-  { type: "Cr", start: "D4", orientation: "hor" },
-  { type: "Su", start: "G6", orientation: "hor" },
-  { type: "De", start: "J1", orientation: "ver" },
-]);
-
-// Copy the opponent's ships board to player's strategy board
-// The ships on the strategy board won't be displayed
-playerOneBoard.strategyBoard = [...playerTwoBoard.shipsBoard];
-playerTwoBoard.strategyBoard = [...playerOneBoard.shipsBoard];
-/////////////////
 
 // GameFlow governed by click events on the squares on both players' strategy boards
 // No click events needed on the ships boards
@@ -788,6 +874,44 @@ const cpuOpponentLogic = () => {
   }
 
   reRender();
+};
+
+const checkShipOverlap = (playerShips) => {
+  const alphaCol = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  const numRow = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+  let occupiedCells = [];
+
+  for (let i = 0; i < playerShips.length; i++) {
+    const ship = playerShips[i];
+    const startCol = ship.start[0];
+    const startRow = ship.start.slice(1);
+    const shipLength =
+      ship.type === "Ca"
+        ? 5
+        : ship.type === "Ba"
+          ? 4
+          : ship.type === "Cr"
+            ? 3
+            : ship.type === "Su"
+              ? 3
+              : 2;
+
+    for (let j = 0; j < shipLength; j++) {
+      let currentCell;
+      if (ship.orientation === "hor") {
+        currentCell = alphaCol[alphaCol.indexOf(startCol) + j] + startRow;
+      } else {
+        currentCell = startCol + numRow[numRow.indexOf(startRow) + j];
+      }
+
+      occupiedCells.push(currentCell);
+    }
+  }
+
+  const uniqueCells = new Set(occupiedCells);
+
+  return uniqueCells.size !== occupiedCells.length;
 };
 
 // displayGameBoard();
