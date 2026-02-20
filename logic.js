@@ -512,38 +512,40 @@ const shipPlacement = (playerShipsBoard) => {
         );
         return;
       }
+    }
+    // Display all ship placements and their orienation once to the player before they confirm their placements and proceed to the game phase
+    let placementSummary = "Your ship placements:\n";
+    playerShips.forEach((ship) => {
+      placementSummary += `${ship.type} at ${ship.start} (${ship.orientation})\n`;
+    });
+    placementSummary += "Do you confirm these placements?";
 
-      console.log(playerShips);
-      // We will also need to implement a way for the player to confirm their ship placements before proceeding to the game phase using a modal box with a confirm button. If the player confirms their placements, we can then create the player object and assign them their fleet and ship board with the placed ships. If the player does not confirm their placements, they can go back and adjust their ship placements as needed.
-      const confirmPlacement = confirm(
-        `Please confirm your ship placements:\nCarrier: ${ship.type === "Ca" ? ship.start + " " + ship.orientation : "N/A"}\nBattleship: ${ship.type === "Ba" ? ship.start + " " + ship.orientation : "N/A"}\nCruiser: ${ship.type === "Cr" ? ship.start + " " + ship.orientation : "N/A"}\nSubmarine: ${ship.type === "Su" ? ship.start + " " + ship.orientation : "N/A"}\nDestroyer: ${ship.type === "De" ? ship.start + " " + ship.orientation : "N/A"}`,
-      );
+    const confirmPlacement = confirm(placementSummary);
 
-      if (!confirmPlacement) {
-        return;
-      } else {
-        playerOneFleet = createFleet();
-        playerOne = new Player(input.value, false);
-        playerOneBoard = createBoard(playerOne, playerOneFleet);
+    if (!confirmPlacement) {
+      return;
+    } else {
+      playerOneFleet = createFleet();
+      playerOne = new Player(input.value, false);
+      playerOneBoard = createBoard(playerOne, playerOneFleet);
 
-        playerOneBoard.addShips(playerShips);
+      playerOneBoard.addShips(playerShips);
 
-        // CPU opponent places ships randomly
-        playerTwoFleet = createFleet();
-        playerTwo = new Player("CPU", true);
-        playerTwoBoard = createBoard(playerTwo, playerTwoFleet);
+      // CPU opponent places ships randomly
+      playerTwoFleet = createFleet();
+      playerTwo = new Player("CPU", true);
+      playerTwoBoard = createBoard(playerTwo, playerTwoFleet);
 
-        playerTwoBoard.addShips(CPUShipPlacement());
+      playerTwoBoard.addShips(CPUShipPlacement());
 
-        // Copy the opponent's ships board to player's strategy board
-        // The ships on the strategy board won't be displayed
-        playerOneBoard.strategyBoard = [...playerTwoBoard.shipsBoard];
-        playerTwoBoard.strategyBoard = [...playerOneBoard.shipsBoard];
-        /////////////////
+      // Copy the opponent's ships board to player's strategy board
+      // The ships on the strategy board won't be displayed
+      playerOneBoard.strategyBoard = [...playerTwoBoard.shipsBoard];
+      playerTwoBoard.strategyBoard = [...playerOneBoard.shipsBoard];
+      /////////////////
 
-        // After that, we can proceed to the game phase where the player can click on the strategy board to attack the opponent's ships
-        displayGameBoard();
-      }
+      // After that, we can proceed to the game phase where the player can click on the strategy board to attack the opponent's ships
+      displayGameBoard();
     }
   });
 };
