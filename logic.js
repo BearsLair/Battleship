@@ -473,6 +473,12 @@ const shipPlacement = (playerShipsBoard) => {
       },
     ];
 
+    // We need to ensure that the player has entered a name
+    if (input.value.trim() === "") {
+      alert("Please enter a name for the player.");
+      return;
+    }
+
     // We will need to validate the input data to ensure that the ship placements are valid (e.g., not overlapping, within the bounds of the board, etc.)
     const alphaCol = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
     const numRow = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
@@ -505,45 +511,45 @@ const shipPlacement = (playerShipsBoard) => {
         );
         return;
       }
+    }
 
-      if (checkShipOverlap(playerShips)) {
-        alert(
-          `Invalid placement. Ships cannot overlap. Please adjust the positions.`,
-        );
-        return;
-      }
-
-      console.log(playerShips);
-      // We will also need to implement a way for the player to confirm their ship placements before proceeding to the game phase using a modal box with a confirm button. If the player confirms their placements, we can then create the player object and assign them their fleet and ship board with the placed ships. If the player does not confirm their placements, they can go back and adjust their ship placements as needed.
-      const confirmPlacement = confirm(
-        `Please confirm your ship placements:\nCarrier: ${ship.type === "Ca" ? ship.start + " " + ship.orientation : "N/A"}\nBattleship: ${ship.type === "Ba" ? ship.start + " " + ship.orientation : "N/A"}\nCruiser: ${ship.type === "Cr" ? ship.start + " " + ship.orientation : "N/A"}\nSubmarine: ${ship.type === "Su" ? ship.start + " " + ship.orientation : "N/A"}\nDestroyer: ${ship.type === "De" ? ship.start + " " + ship.orientation : "N/A"}`,
+    if (checkShipOverlap(playerShips)) {
+      alert(
+        `Invalid placement. Ships cannot overlap. Please adjust the positions.`,
       );
+      return;
+    }
 
-      if (!confirmPlacement) {
-        return;
-      } else {
-        playerOneFleet = createFleet();
-        playerOne = new Player(input.value, false);
-        playerOneBoard = createBoard(playerOne, playerOneFleet);
+    console.log(playerShips);
+    // We will also need to implement a way for the player to confirm their ship placements before proceeding to the game phase using a modal box with a confirm button. If the player confirms their placements, we can then create the player object and assign them their fleet and ship board with the placed ships. If the player does not confirm their placements, they can go back and adjust their ship placements as needed.
+    const confirmPlacement = confirm(
+      `Please confirm your ship placements:\nCarrier: ${playerShips[0].start + " " + playerShips[0].orientation}\nBattleship: ${playerShips[1].start + " " + playerShips[1].orientation}\nCruiser: ${playerShips[2].start + " " + playerShips[2].orientation}\nSubmarine: ${playerShips[3].start + " " + playerShips[3].orientation}\nDestroyer: ${playerShips[4].start + " " + playerShips[4].orientation}`,
+    );
 
-        playerOneBoard.addShips(playerShips);
+    if (!confirmPlacement) {
+      return;
+    } else {
+      playerOneFleet = createFleet();
+      playerOne = new Player(input.value, false);
+      playerOneBoard = createBoard(playerOne, playerOneFleet);
 
-        // CPU opponent places ships randomly
-        playerTwoFleet = createFleet();
-        playerTwo = new Player("CPU", true);
-        playerTwoBoard = createBoard(playerTwo, playerTwoFleet);
+      playerOneBoard.addShips(playerShips);
 
-        playerTwoBoard.addShips(CPUShipPlacement());
+      // CPU opponent places ships randomly
+      playerTwoFleet = createFleet();
+      playerTwo = new Player("CPU", true);
+      playerTwoBoard = createBoard(playerTwo, playerTwoFleet);
 
-        // Copy the opponent's ships board to player's strategy board
-        // The ships on the strategy board won't be displayed
-        playerOneBoard.strategyBoard = [...playerTwoBoard.shipsBoard];
-        playerTwoBoard.strategyBoard = [...playerOneBoard.shipsBoard];
-        /////////////////
+      playerTwoBoard.addShips(CPUShipPlacement());
 
-        // After that, we can proceed to the game phase where the player can click on the strategy board to attack the opponent's ships
-        displayGameBoard();
-      }
+      // Copy the opponent's ships board to player's strategy board
+      // The ships on the strategy board won't be displayed
+      playerOneBoard.strategyBoard = [...playerTwoBoard.shipsBoard];
+      playerTwoBoard.strategyBoard = [...playerOneBoard.shipsBoard];
+      /////////////////
+
+      // After that, we can proceed to the game phase where the player can click on the strategy board to attack the opponent's ships
+      displayGameBoard();
     }
   });
 };
@@ -730,6 +736,7 @@ const displayGrid = (playerBoard, gridType) => {
                       console.log(
                         `All of ${playerTwoBoard.player.name}'s ships are SUNK!`,
                       );
+                      endGame(playerOneBoard);
                     }
 
                     break;
@@ -767,6 +774,7 @@ const displayGrid = (playerBoard, gridType) => {
                       console.log(
                         `All of ${playerOneBoard.player.name}'s ships are SUNK!`,
                       );
+                      endGame(playerTwoBoard);
                     }
 
                     break;
@@ -860,6 +868,7 @@ const cpuOpponentLogic = () => {
           console.log(
             `All of ${playerOneBoard.player.name}'s ships are SUNK by CPU!`,
           );
+          endGame(playerTwoBoard);
         }
 
         break;
@@ -912,6 +921,15 @@ const checkShipOverlap = (playerShips) => {
   const uniqueCells = new Set(occupiedCells);
 
   return uniqueCells.size !== occupiedCells.length;
+};
+
+const endGame = (winningBoard) => {
+  alert(
+    `${winningBoard.player.name} wins! Would you like to play again? Click OK to start a new game.`,
+  );
+  // Reset game by reloading the page, which will reset all variables and states
+
+  location.reload();
 };
 
 // displayGameBoard();
